@@ -1,8 +1,9 @@
 package com.company;
 
-import javax.swing.text.Position;
+
+import java.awt.*;
 
 public interface GamePieceInterface {
-    void movePiece(Position newPos, Board b);
-    Position[] validMoves();
+    void movePiece(Point newPos, Board b);
+    Point[] validMoves();
 }

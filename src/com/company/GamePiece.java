@@ -1,12 +1,12 @@
 package com.company;
 
-import javax.swing.text.Position;
+
 import java.awt.*;
 
 public abstract class GamePiece implements GamePieceInterface {
     Color color;
-    Position pos;
-    public void movePiece(Position newPos, Board b){
+    Point pos;
+    public void movePiece(Point newPos, Board b){
 
     }
 
@@ -18,11 +18,11 @@ public abstract class GamePiece implements GamePieceInterface {
         this.color = color;
     }
 
-    public Position getPos() {
+    public Point getPos() {
         return pos;
     }
 
-    private void setPos(Position pos) {
+    private void setPos(Point pos) {
         this.pos = pos;
     }
 }
