@@ -6,9 +6,9 @@ public class BoardSquare {
     Color colour;
     GamePiece pieceOnSquare;
 
-    public BoardSquare(Color colour, GamePiece pieceOnSquare) {
+    public BoardSquare(Color colour) {
         this.colour = colour;
-        this.pieceOnSquare = pieceOnSquare;
+        this.pieceOnSquare = null;
     }
 
     public Color getColour() {
