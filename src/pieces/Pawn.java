@@ -25,6 +25,11 @@ public class Pawn extends GamePiece {
         return validMoves;
     }
 
+    @Override
+    public Color getColor() {
+        return color;
+    }
+
     public Pawn(Color c) {
         this.color = c;
     }

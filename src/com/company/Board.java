@@ -10,6 +10,7 @@ public class Board {
     private int width;
     private int height;
 
+
     public Board(int width, int height) {
         this.squares = new BoardSquare[width][height];
         this.width = squares.length;
@@ -72,7 +73,7 @@ public class Board {
     }
 
     public BoardSquare getSquares(int x, int y) {
-        return squares[x][y];
+        return squares[y][x];
     }
 
     public void setSquares(BoardSquare squares, int x, int y) {

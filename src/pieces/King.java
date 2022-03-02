@@ -11,6 +11,11 @@ public class King extends GamePiece {
     }
 
     @Override
+    public Color getColor() {
+        return color;
+    }
+
+    @Override
     public Point[] validMoves() {
         return new Point[0];
     }

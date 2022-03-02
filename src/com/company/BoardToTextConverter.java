@@ -4,10 +4,10 @@ import pieces.*;
 
 import java.awt.*;
 
-public class boardToTextConverter {
+public class BoardToTextConverter {
     private Board b;
 
-    public boardToTextConverter(Board b) {
+    public BoardToTextConverter(Board b) {
         this.b = b;
     }
 
@@ -32,8 +32,8 @@ public class boardToTextConverter {
 
     public String toStringPiece(){
         StringBuilder builder = new StringBuilder();
-        for (int x = 0; x < b.getHeight(); x++){
-            for (int y = 0; y < b.getWidth(); y++){
+        for (int y = 0; y < b.getHeight(); y++){
+            for (int x = 0; x < b.getWidth(); x++){
                 BoardSquare squares = b.getSquares(x, y);
 
 
@@ -55,7 +55,7 @@ public class boardToTextConverter {
                     System.out.println(squares.getPieceOnSquare().getClass());
                     builder.append("Error!");
                 }
-                if (y == b.getWidth()-1)
+                if (x == b.getWidth()-1)
                     builder.append("\n");
             }
         }
