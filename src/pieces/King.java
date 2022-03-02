@@ -5,7 +5,9 @@ import com.company.GamePiece;
 import java.awt.*;
 
 public class King extends GamePiece {
-    public King() {
+    private Color color;
+    public King(Color c) {
+        color = c;
     }
 
     @Override

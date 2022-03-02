@@ -5,7 +5,10 @@ import com.company.GamePiece;
 import java.awt.*;
 
 public class Queen extends GamePiece {
-    public Queen() {
+    private Color color;
+
+    public Queen(Color c) {
+        this.color = c;
     }
 
     @Override

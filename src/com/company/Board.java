@@ -26,47 +26,47 @@ public class Board {
         }
         // Generate pawns
         for (int x = 0; x < getWidth(); x++) {
-            Pawn pBlack = new Pawn();
+            Pawn pBlack = new Pawn(Color.BLACK);
             squares[1][x].setPieceOnSquare(pBlack);
-            Pawn pWhite = new Pawn();
+            Pawn pWhite = new Pawn(Color.WHITE);
             squares[getHeight()-2][x].setPieceOnSquare(pWhite);
         }
         // Generate Rooks
         for (int x = 0; x < getWidth(); x += 7) {
-            Rook rBlack = new Rook();
+            Rook rBlack = new Rook(Color.BLACK);
             squares[0][x].setPieceOnSquare(rBlack);
-            Rook rWhite = new Rook();
+            Rook rWhite = new Rook(Color.WHITE);
             squares[getHeight()-1][x].setPieceOnSquare(rWhite);
         }
 
         // Generate Queen
-        Queen qBlack = new Queen();
+        Queen qBlack = new Queen(Color.BLACK);
         squares[0][3].setPieceOnSquare(qBlack);
 
-        Queen qWhite = new Queen();
+        Queen qWhite = new Queen(Color.WHITE);
         squares[getHeight()-1][3].setPieceOnSquare(qWhite);
 
         //Generate Bishop
         for (int x = 2; x < getWidth()-2; x += 3) {
-            Bishop bBlack = new Bishop();
+            Bishop bBlack = new Bishop(Color.BLACK);
             squares[0][x].setPieceOnSquare(bBlack);
-            Bishop bWhite = new Bishop();
+            Bishop bWhite = new Bishop(Color.WHITE);
             squares[getHeight()-1][x].setPieceOnSquare(bWhite);
         }
 
         // Generate Knight
         for (int x = 1; x < getWidth()-1; x += 5) {
-            Knight kBlack = new Knight();
+            Knight kBlack = new Knight(Color.BLACK);
             squares[0][x].setPieceOnSquare(kBlack);
-            Knight kWhite = new Knight();
+            Knight kWhite = new Knight(Color.WHITE);
             squares[getHeight()-1][x].setPieceOnSquare(kWhite);
         }
 
         // Generate King
-        King kBlack = new King();
+        King kBlack = new King(Color.BLACK);
         squares[0][4].setPieceOnSquare(kBlack);
 
-        King kWhite = new King();
+        King kWhite = new King(Color.WHITE);
         squares[getHeight()-1][4].setPieceOnSquare(kWhite);
 
     }

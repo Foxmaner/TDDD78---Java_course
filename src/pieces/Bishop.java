@@ -5,9 +5,10 @@ import com.company.GamePiece;
 import java.awt.*;
 
 public class Bishop extends GamePiece {
+    private Color color;
 
-
-    public Bishop() {
+    public Bishop(Color c) {
+        this.color = c;
     }
 
     @Override
