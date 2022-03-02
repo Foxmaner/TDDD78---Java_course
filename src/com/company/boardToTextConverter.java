@@ -41,15 +41,15 @@ public class boardToTextConverter {
                     builder.append("- ");
                 } else if (squares.getPieceOnSquare() instanceof Bishop) {
                     builder.append("B ");
-                }else if (squares.getPieceOnSquare() instanceof King) {
+                } else if (squares.getPieceOnSquare() instanceof King) {
                     builder.append("K ");
-                }else if (squares.getPieceOnSquare() instanceof Knight) {
+                } else if (squares.getPieceOnSquare() instanceof Knight) {
                     builder.append("k ");
-                }else if (squares.getPieceOnSquare() instanceof Pawn) {
+                } else if (squares.getPieceOnSquare() instanceof Pawn) {
                     builder.append("P ");
-                }else if (squares.getPieceOnSquare() instanceof Queen) {
+                } else if (squares.getPieceOnSquare() instanceof Queen) {
                     builder.append("Q ");
-                }else if (squares.getPieceOnSquare() instanceof Rook) {
+                } else if (squares.getPieceOnSquare() instanceof Rook) {
                     builder.append("R ");
                 } else {
                     System.out.println(squares.getPieceOnSquare().getClass());
