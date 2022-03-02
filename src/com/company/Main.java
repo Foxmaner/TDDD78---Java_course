@@ -7,5 +7,6 @@ public class Main {
         Board b = new Board(8, 8);
         boardToTextConverter converter = new boardToTextConverter(b);
         System.out.println(converter.toStringColour());
+        System.out.println(converter.toStringPiece());
     }
 }

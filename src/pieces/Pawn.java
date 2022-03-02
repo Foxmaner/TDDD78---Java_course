@@ -25,4 +25,6 @@ public class Pawn extends GamePiece {
         return validMoves;
     }
 
+    public Pawn() {
+    }
 }

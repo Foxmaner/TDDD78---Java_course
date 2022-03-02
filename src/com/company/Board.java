@@ -1,5 +1,7 @@
 package com.company;
 
+import pieces.*;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -12,7 +14,7 @@ public class Board {
         this.squares = new BoardSquare[width][height];
         this.width = squares.length;
         this.height = squares[0].length;
-
+        //Generate boardSquares with colours
         for (int y = 0; y < getHeight(); y++) {
             for (int x = 0; x < getWidth(); x++) {
                 if(((y % 2) + (x % 2)) % 2 == 0){
@@ -22,6 +24,51 @@ public class Board {
                 }
             }
         }
+        // Generate pawns
+        for (int x = 0; x < getWidth(); x++) {
+            Pawn pBlack = new Pawn();
+            squares[1][x].setPieceOnSquare(pBlack);
+            Pawn pWhite = new Pawn();
+            squares[getHeight()-2][x].setPieceOnSquare(pWhite);
+        }
+        // Generate Rooks
+        for (int x = 0; x < getWidth(); x += 7) {
+            Rook rBlack = new Rook();
+            squares[0][x].setPieceOnSquare(rBlack);
+            Rook rWhite = new Rook();
+            squares[getHeight()-1][x].setPieceOnSquare(rWhite);
+        }
+
+        // Generate Queen
+        Queen qBlack = new Queen();
+        squares[0][3].setPieceOnSquare(qBlack);
+
+        Queen qWhite = new Queen();
+        squares[getHeight()-1][3].setPieceOnSquare(qWhite);
+
+        //Generate Bishop
+        for (int x = 2; x < getWidth()-2; x += 3) {
+            Bishop bBlack = new Bishop();
+            squares[0][x].setPieceOnSquare(bBlack);
+            Bishop bWhite = new Bishop();
+            squares[getHeight()-1][x].setPieceOnSquare(bWhite);
+        }
+
+        // Generate Knight
+        for (int x = 1; x < getWidth()-1; x += 5) {
+            Knight kBlack = new Knight();
+            squares[0][x].setPieceOnSquare(kBlack);
+            Knight kWhite = new Knight();
+            squares[getHeight()-1][x].setPieceOnSquare(kWhite);
+        }
+
+        // Generate King
+        King kBlack = new King();
+        squares[0][4].setPieceOnSquare(kBlack);
+
+        King kWhite = new King();
+        squares[getHeight()-1][4].setPieceOnSquare(kWhite);
+
     }
 
     public BoardSquare getSquares(int x, int y) {
