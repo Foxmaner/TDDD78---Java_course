@@ -5,14 +5,9 @@ import com.company.GamePiece;
 import java.awt.*;
 
 public class Rook extends GamePiece {
-    private Color color;
-    public Rook(Color c) {
-        color = c;
-    }
 
-    @Override
-    public Color getColor() {
-        return color;
+    public Rook(Color c, int x, int y) {
+        super(c, new Point(x, y));
     }
 
     @Override

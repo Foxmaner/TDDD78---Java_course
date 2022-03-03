@@ -3,6 +3,7 @@ package com.company;
 import pieces.*;
 
 import java.awt.*;
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class Board {
@@ -27,53 +28,57 @@ public class Board {
         }
         // Generate pawns
         for (int x = 0; x < getWidth(); x++) {
-            Pawn pBlack = new Pawn(Color.BLACK);
+            Pawn pBlack = new Pawn(Color.BLACK, x, 1);
             squares[1][x].setPieceOnSquare(pBlack);
-            Pawn pWhite = new Pawn(Color.WHITE);
+            Pawn pWhite = new Pawn(Color.WHITE, x, 6);
             squares[getHeight()-2][x].setPieceOnSquare(pWhite);
         }
         // Generate Rooks
         for (int x = 0; x < getWidth(); x += 7) {
-            Rook rBlack = new Rook(Color.BLACK);
+            Rook rBlack = new Rook(Color.BLACK, x, 0);
             squares[0][x].setPieceOnSquare(rBlack);
-            Rook rWhite = new Rook(Color.WHITE);
+            Rook rWhite = new Rook(Color.WHITE, x, 7);
             squares[getHeight()-1][x].setPieceOnSquare(rWhite);
         }
 
         // Generate Queen
-        Queen qBlack = new Queen(Color.BLACK);
+        Queen qBlack = new Queen(Color.BLACK, 3, 0);
         squares[0][3].setPieceOnSquare(qBlack);
 
-        Queen qWhite = new Queen(Color.WHITE);
+        Queen qWhite = new Queen(Color.WHITE, 3, 7);
         squares[getHeight()-1][3].setPieceOnSquare(qWhite);
 
         //Generate Bishop
         for (int x = 2; x < getWidth()-2; x += 3) {
-            Bishop bBlack = new Bishop(Color.BLACK);
+            Bishop bBlack = new Bishop(Color.BLACK, x, 0);
             squares[0][x].setPieceOnSquare(bBlack);
-            Bishop bWhite = new Bishop(Color.WHITE);
+            Bishop bWhite = new Bishop(Color.WHITE, x, 7);
             squares[getHeight()-1][x].setPieceOnSquare(bWhite);
         }
 
         // Generate Knight
         for (int x = 1; x < getWidth()-1; x += 5) {
-            Knight kBlack = new Knight(Color.BLACK);
+            Knight kBlack = new Knight(Color.BLACK, x, 0);
             squares[0][x].setPieceOnSquare(kBlack);
-            Knight kWhite = new Knight(Color.WHITE);
+            Knight kWhite = new Knight(Color.WHITE, x, 7);
             squares[getHeight()-1][x].setPieceOnSquare(kWhite);
         }
 
         // Generate King
-        King kBlack = new King(Color.BLACK);
+        King kBlack = new King(Color.BLACK, 4, 0);
         squares[0][4].setPieceOnSquare(kBlack);
 
-        King kWhite = new King(Color.WHITE);
+        King kWhite = new King(Color.WHITE, 4, 7);
         squares[getHeight()-1][4].setPieceOnSquare(kWhite);
 
     }
 
     public BoardSquare getSquares(int x, int y) {
         return squares[y][x];
+    }
+
+    public BoardSquare getSquaresOnPoint(Point point) {
+        return squares[point.y][point.x];
     }
 
     public void setSquares(BoardSquare squares, int x, int y) {

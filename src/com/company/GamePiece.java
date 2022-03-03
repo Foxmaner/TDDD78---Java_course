@@ -4,25 +4,31 @@ package com.company;
 import java.awt.*;
 
 public abstract class GamePiece implements GamePieceInterface {
-    Color color;
-    Point pos;
-    public void movePiece(Point newPos, Board b){
+    protected Color color;
+    protected Point pos;
 
+    public GamePiece(Color c, Point pos){
+        this.color = c;
+        this.pos = pos;
     }
 
-    public Color getColor() {
+    @Override public void movePiece(Point newPos, Board b){
+        this.pos = newPos;
+    }
+
+    @Override public Color getColor() {
         return color;
     }
 
-    private void setColor(Color color) {
+    @Override public void setColor(Color color) {
         this.color = color;
     }
 
-    public Point getPos() {
+    @Override public Point getPos() {
         return pos;
     }
 
-    private void setPos(Point pos) {
+    @Override public void setPos(Point pos) {
         this.pos = pos;
     }
 }

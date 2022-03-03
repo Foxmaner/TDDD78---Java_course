@@ -5,15 +5,9 @@ import com.company.GamePiece;
 import java.awt.*;
 
 public class Queen extends GamePiece {
-    private Color color;
 
-    public Queen(Color c) {
-        this.color = c;
-    }
-
-    @Override
-    public Color getColor() {
-        return color;
+    public Queen(Color c, int x, int y) {
+        super(c, new Point(x, y));
     }
 
     @Override

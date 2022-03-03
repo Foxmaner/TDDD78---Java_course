@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Pawn extends GamePiece {
-    private Color color;
+
     @Override
     public Point[] validMoves() {
         int direction = 0;
@@ -25,12 +25,7 @@ public class Pawn extends GamePiece {
         return validMoves;
     }
 
-    @Override
-    public Color getColor() {
-        return color;
-    }
-
-    public Pawn(Color c) {
-        this.color = c;
+    public Pawn(Color c, int x, int y) {
+        super(c, new Point(x, y));
     }
 }

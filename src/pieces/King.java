@@ -5,14 +5,9 @@ import com.company.GamePiece;
 import java.awt.*;
 
 public class King extends GamePiece {
-    private Color color;
-    public King(Color c) {
-        color = c;
-    }
 
-    @Override
-    public Color getColor() {
-        return color;
+    public King(Color c, int x, int y) {
+        super(c, new Point(x, y));
     }
 
     @Override
