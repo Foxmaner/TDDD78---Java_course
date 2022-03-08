@@ -8,10 +8,35 @@ public class Rook extends GamePiece {
 
     public Rook(Color c, int x, int y) {
         super(c, new Point(x, y));
+        if (this.color == Color.WHITE) {
+            fileName = "wR.png";
+        } else {
+            fileName = "bR.png";
+        }
     }
 
     @Override
     public Point[] validMoves() {
-        return new Point[0];
+
+        Point[] validMoves = new Point[7*2];
+        int i = 0;
+        // x axle
+        for (int x = 0; x <= 8; x++) {
+            if (x == pos.x) {
+                continue;
+            }
+            validMoves[i] = new Point(x, pos.y);
+            i++;
+        }
+        // x axle
+        for (int y = 0; y <= 8; y++) {
+            if (y == pos.y) {
+                continue;
+            }
+            validMoves[i] = new Point(pos.x, y);
+            i++;
+        }
+
+        return validMoves;
     }
 }

@@ -28,9 +28,9 @@ public class Board {
         }
         // Generate pawns
         for (int x = 0; x < getWidth(); x++) {
-            Pawn pBlack = new Pawn(Color.BLACK, x, 1);
+            Pawn pBlack = new Pawn(Color.BLACK, x, 1, true);
             squares[1][x].setPieceOnSquare(pBlack);
-            Pawn pWhite = new Pawn(Color.WHITE, x, 6);
+            Pawn pWhite = new Pawn(Color.WHITE, x, 6, true);
             squares[getHeight()-2][x].setPieceOnSquare(pWhite);
         }
         // Generate Rooks

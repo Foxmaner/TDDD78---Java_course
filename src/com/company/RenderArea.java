@@ -1,11 +1,11 @@
 package com.company;
 
+import utils.ImgFetcher;
+
 import javax.swing.*;
-import javax.swing.text.Position;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.security.cert.CertificateParsingException;
 
 public class RenderArea extends JComponent {
     private Board board;
@@ -41,7 +41,7 @@ public class RenderArea extends JComponent {
 
     @Override
     protected void paintComponent(Graphics g) {
-
+        ImgFetcher fetcher = new ImgFetcher();
         super.paintComponent(g);
         System.out.println("In Paint");
         final Graphics2D g2d = (Graphics2D) g;
@@ -64,12 +64,15 @@ public class RenderArea extends JComponent {
                 if (current.getPieceOnSquare() != null) {
                     //System.out.println(current.getPieceOnSquare().getColor());
                     if(current.getPieceOnSquare().getColor() == Color.WHITE) {
-                        g2d.setColor(new Color(181, 181, 181));
-                        g2d.fillRect(x * TILE_SIZE + 15, y * TILE_SIZE  + 15, PEICE_SIZE, PEICE_SIZE);
+                        //g2d.setColor(new Color(181, 181, 181));
+                        //g2d.fillRect(x * TILE_SIZE + 15, y * TILE_SIZE  + 15, PEICE_SIZE, PEICE_SIZE);
                     } else if (current.getPieceOnSquare().getColor() == Color.BLACK) {
-                        g2d.setColor(new Color(61, 61, 61));
-                        g2d.fillRect(x * TILE_SIZE + 15, y * TILE_SIZE  + 15, PEICE_SIZE, PEICE_SIZE);
+                       // g2d.setColor(new Color(61, 61, 61));
+                       // g2d.fillRect(x * TILE_SIZE + 15, y * TILE_SIZE  + 15, PEICE_SIZE, PEICE_SIZE);
                     }
+                    g2d.scale(0.05,0.05);
+                    g2d.drawImage(fetcher.fetchImage(current.getPieceOnSquare().fileName), x*TILE_SIZE*20, y*TILE_SIZE*20, null);
+                    g2d.scale(20,20);
                 }
             }
         }
