@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface GamePieceInterface {
 
-    public void movePiece(Point newPos, Board b);
+    public void movePiece(Point newPos);
 
     public Point[] validMoves();
 

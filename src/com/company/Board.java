@@ -278,6 +278,17 @@ public class Board {
         return returnArray;
     };
 
+    public void movePeice(GamePiece p, Point newPos) {
+        setPeiceOnSquareInBoard(null, p.getPos());
+        p.movePiece(newPos);
+        setPeiceOnSquareInBoard(p, newPos);
+    }
+
+    public void setPeiceOnSquareInBoard(GamePiece p, Point pos) {
+        BoardSquare square = getSquaresOnPoint(pos);
+        square.setPieceOnSquare(p);
+    }
+
     public BoardSquare getSquares(int x, int y) {
         return squares[y][x];
     }
@@ -286,23 +297,11 @@ public class Board {
         return squares[point.y][point.x];
     }
 
-    public void setSquares(BoardSquare squares, int x, int y) {
-        this.squares[y][x] = squares;
-    }
-
     public int getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public int getHeight() {
         return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 }

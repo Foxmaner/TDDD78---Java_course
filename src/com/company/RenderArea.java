@@ -21,10 +21,19 @@ public class RenderArea extends JComponent {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                Point mousePosition = new Point(e.getX(),e.getY());
-                Point onBoard = new Point((int)((e.getX() / TILE_SIZE)), (int)((e.getY() / TILE_SIZE)));
+                Point mousePosition = new Point(e.getX(), e.getY());
+                Point onBoard = new Point((int) ((e.getX() / TILE_SIZE)), (int) ((e.getY() / TILE_SIZE)));
                 System.out.println("På board = " + onBoard);
                 //System.out.println("Pjäs = " + board.getSquaresOnPoint(onBoard).getPieceOnSquare().getClass());
+                if (validMoves != null){
+                    for (int validPos = 0; validPos < validMoves.length; validPos++) {
+                        if (validMoves[validPos] == onBoard) {
+                            GamePiece selectedPiece = board.getSquaresOnPoint(selectedSquare).getPieceOnSquare();
+                            System.out.println("moving " + selectedPiece.getClass() + " to " + onBoard.toString());
+                            board.movePeice(selectedPiece, onBoard);
+                        }
+                    }
+                }
                 if (board.getSquaresOnPoint(onBoard).getPieceOnSquare() != null){
                     setSelectedSquare(onBoard);
                     validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());

@@ -15,10 +15,6 @@ public class BoardSquare {
         return colour;
     }
 
-    public void setColour(Color colour) {
-        this.colour = colour;
-    }
-
     public GamePiece getPieceOnSquare() {
         return pieceOnSquare;
     }

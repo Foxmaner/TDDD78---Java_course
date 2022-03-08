@@ -13,7 +13,7 @@ public abstract class GamePiece implements GamePieceInterface {
         this.pos = pos;
     }
 
-    @Override public void movePiece(Point newPos, Board b){
+    @Override public void movePiece(Point newPos){
         this.pos = newPos;
     }
 

@@ -37,7 +37,12 @@ public class Pawn extends GamePiece {
             validMoves[0] = new Point((int)this.getPos().getX(), (int)this.getPos().y + direction);
             return validMoves;
         }
+    }
 
+    @Override
+    public void movePiece(Point newPos){
+        this.pos = newPos;
+        this.firstMove = false;
     }
 
     public Boolean getFirstMove() {
