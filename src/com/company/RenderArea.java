@@ -9,9 +9,9 @@ import java.awt.event.MouseEvent;
 
 public class RenderArea extends JComponent {
     private Board board;
-    private int TILE_SIZE = 100;
-    private int PEICE_SIZE = 70;
-    private Point[] validMoves;
+    private final int TILE_SIZE = 100;
+    private final int PEICE_SIZE = 70;
+    private Point[] validMoves = null;
     private Point selectedSquare = null;
 
 
@@ -23,22 +23,25 @@ public class RenderArea extends JComponent {
                 super.mouseClicked(e);
                 Point mousePosition = new Point(e.getX(), e.getY());
                 Point onBoard = new Point((int) ((e.getX() / TILE_SIZE)), (int) ((e.getY() / TILE_SIZE)));
-                System.out.println("På board = " + onBoard);
-                //System.out.println("Pjäs = " + board.getSquaresOnPoint(onBoard).getPieceOnSquare().getClass());
+                System.out.println("Clicked on square = " + onBoard);
                 if (validMoves != null){
-                    for (int validPos = 0; validPos < validMoves.length; validPos++) {
-                        if (validMoves[validPos] == onBoard) {
+                    for (int i = 0; i < validMoves.length; i++) {
+                        if (validMoves[i].x == onBoard.x && validMoves[i].y == onBoard.y) {
                             GamePiece selectedPiece = board.getSquaresOnPoint(selectedSquare).getPieceOnSquare();
                             System.out.println("moving " + selectedPiece.getClass() + " to " + onBoard.toString());
                             board.movePeice(selectedPiece, onBoard);
+                            validMoves = null;
+                            selectedSquare = null;
+                            onBoard = null;
+                            break;
                         }
                     }
+                    validMoves = null;
                 }
-                if (board.getSquaresOnPoint(onBoard).getPieceOnSquare() != null){
+                if (onBoard != null && board.getSquaresOnPoint(onBoard).getPieceOnSquare() != null){
                     setSelectedSquare(onBoard);
                     validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());
 
-                    System.out.println(validMoves);
                 } else {
                     setSelectedSquare(null); //FIXME REMOVE LATER
                 }
@@ -59,7 +62,7 @@ public class RenderArea extends JComponent {
     protected void paintComponent(Graphics g) {
         ImgFetcher fetcher = new ImgFetcher();
         super.paintComponent(g);
-        System.out.println("In Paint");
+        //System.out.println("In Paint");
         final Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.BLACK);
         // background tile color and selected square
