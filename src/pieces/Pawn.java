@@ -9,13 +9,16 @@ import java.awt.*;
 public class Pawn extends GamePiece {
 
     Boolean firstMove;
+    int direction;
 
     public Pawn(Color c, int x, int y, boolean first) {
         super(c, new Point(x, y));
         if (this.color == Color.WHITE) {
             fileName = "wP.png";
+            direction = -1;
         } else {
             fileName = "bP.png";
+            direction = 1;
         }
         firstMove = first;
     }
@@ -23,13 +26,6 @@ public class Pawn extends GamePiece {
     @Override
     public Point[] validMoves() {
 
-        int direction = 0;
-        if (this.getColor() == Color.WHITE) {
-            direction = -1;
-        }
-        else {
-            direction = 1;
-        }
         if (firstMove) {
 
             Point[] validMoves = new Point[2];
@@ -42,6 +38,14 @@ public class Pawn extends GamePiece {
             return validMoves;
         }
 
+    }
+
+    public Boolean getFirstMove() {
+        return this.firstMove;
+    }
+
+    public int getDirection() {
+        return this.direction;
     }
 
 

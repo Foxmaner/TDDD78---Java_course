@@ -5,6 +5,7 @@ import pieces.*;
 import java.awt.*;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
     private BoardSquare[][] squares;
@@ -72,6 +73,210 @@ public class Board {
         squares[getHeight()-1][4].setPieceOnSquare(kWhite);
 
     }
+
+    public Point[] validMovesFilter(GamePiece p){
+        //Point[] allValidMoves = p.validMoves();
+        //Point[] validMoves = p.validMoves();
+        ArrayList<Point> validMoves = new ArrayList(List.of(p.validMoves()));
+
+        //Moves are not valid if out of bounds
+        validMoves.removeIf(s -> s.getX() < 0);
+        validMoves.removeIf(s -> s.getX() > 7);
+        validMoves.removeIf(s -> s.getY() < 0);
+        validMoves.removeIf(s -> s.getY() > 7);
+
+        //Moves are not valid if there is a friendly piece on position
+        validMoves.removeIf(s -> getSquaresOnPoint(s).getPieceOnSquare() != null && getSquaresOnPoint(s).getPieceOnSquare().getColor() == p.getColor());
+
+        //Knights can jump over friendly, so we can return now
+        if (p.getClass() == Knight.class) {
+            Point[] returnArray = validMoves.toArray(new Point[0]);
+            return returnArray;
+        }
+
+        //All other pieces are not allowed to jump over other pieces
+        //Specific for Pawn
+        if (p.getClass() == Pawn.class) {
+            if (((Pawn) p).getFirstMove()) {
+                if (getSquares(p.getPos().x, p.getPos().y + ((Pawn) p).getDirection()) != null) {
+                    if (((Pawn) p).getDirection() == 1){
+                        validMoves.removeIf(s -> s.getY() > p.getPos().y + ((Pawn) p).getDirection() * 2);
+                    } else {
+                        validMoves.removeIf(s -> s.getY() < p.getPos().y + ((Pawn) p).getDirection() * 2);
+                    }
+                }
+
+            }
+        }
+        //Specific for Rook
+        if (p.getClass() == Rook.class) {
+            //positive x
+            for (int x = p.getPos().x; x < 8; x++) {
+                if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
+                    int finalX = x;
+                    validMoves.removeIf(s -> s.getX() > finalX);
+                    break;
+                }
+            }
+            //negative x
+            for (int x = p.getPos().x; x >= 0; x--) {
+                if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
+                    int finalX = x;
+                    validMoves.removeIf(s -> s.getX() < finalX);
+                    break;
+                }
+            }
+            //positive y
+            for (int y = p.getPos().y; y < 8; y++) {
+                if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
+                    int finalY = y;
+                    validMoves.removeIf(s -> s.getY() > finalY);
+                    break;
+                }
+            }
+            //negative y
+            for (int y = p.getPos().y; y >= 0; y--) {
+                if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
+                    int finalY = y;
+                    validMoves.removeIf(s -> s.getY() < finalY);
+                    break;
+                }
+            }
+        }
+
+
+        //Specific for QUEEEN
+        if (p.getClass() == Queen.class) {
+            //straights
+            //positive x
+            for (int x = p.getPos().x; x < 8; x++) {
+                if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
+                    int finalX = x;
+                    validMoves.removeIf(s -> s.getX() > finalX && s.getY() == p.getPos().y);
+                    break;
+                }
+            }
+            //negative x
+            for (int x = p.getPos().x; x >= 0; x--) {
+                if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
+                    int finalX = x;
+                    validMoves.removeIf(s -> s.getX() < finalX && s.getY() == p.getPos().y);
+                    break;
+                }
+            }
+            //positive y
+            for (int y = p.getPos().y; y < 8; y++) {
+                if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
+                    int finalY = y;
+                    validMoves.removeIf(s -> s.getY() > finalY && s.getX() == p.getPos().x);
+                    break;
+                }
+            }
+            //negative y
+            for (int y = p.getPos().y; y >= 0; y--) {
+                if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
+                    int finalY = y;
+                    validMoves.removeIf(s -> s.getY() < finalY && s.getX() == p.getPos().x);
+                    break;
+                }
+            }
+            //down right
+            for (int k = 1; k < 7; k++) {
+                if (p.getPos().x + k > 7 || p.getPos().y + k > 7) {
+                    break;
+                }
+                if (getSquares(p.getPos().x + k, p.getPos().y + k).getPieceOnSquare() != null) {
+                    int finalK = k;
+                    validMoves.removeIf(s -> s.getX() < p.getPos().x + finalK && s.getY() < p.getPos().y + finalK);
+                    break;
+                }
+            }
+            //down left
+            for (int k = 1; k < 7; k++) {
+                if (p.getPos().x - k < 0 || p.getPos().y + k > 7) {
+                    break;
+                }
+                if (getSquares(p.getPos().x - k, p.getPos().y + k).getPieceOnSquare() != null) {
+                    int finalK = k;
+                    validMoves.removeIf(s -> s.getX() > p.getPos().x - finalK && s.getY() < p.getPos().y + finalK);
+                    break;
+                }
+            }
+            //up right
+            for (int k = 1; k < 7; k++) {
+                if (p.getPos().x + k > 7 || p.getPos().y - k < 0) {
+                    break;
+                }
+                if (getSquares(p.getPos().x + k, p.getPos().y - k).getPieceOnSquare() != null) {
+                    int finalK = k;
+                    validMoves.removeIf(s -> s.getX() < p.getPos().x + finalK && s.getY() > p.getPos().x - finalK);
+                    break;
+                }
+            }
+            //up left
+            for (int k = 1; k < 7; k++) {
+                if (p.getPos().x - k < 0 || p.getPos().y - k < 0) {
+                    break;
+                }
+                if (getSquares(p.getPos().x - k, p.getPos().y - k).getPieceOnSquare() != null) {
+                    int finalK = k;
+                    validMoves.removeIf(s -> s.getX() > p.getPos().x - finalK && s.getY() > p.getPos().y - finalK);
+                    break;
+                }
+            }
+        }
+
+        //Specific for Bishop
+        if (p.getClass() == Bishop.class) {
+            //down right
+            for (int k = 1; k < 7; k++) {
+                if (p.getPos().x + k > 7 || p.getPos().y + k > 7) {
+                    break;
+                }
+                if (getSquares(p.getPos().x + k, p.getPos().y + k).getPieceOnSquare() != null) {
+                    int finalK = k;
+                    validMoves.removeIf(s -> s.getX() < p.getPos().x + finalK && s.getY() < p.getPos().y + finalK);
+                    break;
+                }
+            }
+            //down left
+            for (int k = 1; k < 7; k++) {
+                if (p.getPos().x - k < 0 || p.getPos().y + k > 7) {
+                    break;
+                }
+                if (getSquares(p.getPos().x - k, p.getPos().y + k).getPieceOnSquare() != null) {
+                    int finalK = k;
+                    validMoves.removeIf(s -> s.getX() > p.getPos().x - finalK && s.getY() < p.getPos().y + finalK);
+                    break;
+                }
+            }
+            //up right
+            for (int k = 1; k < 7; k++) {
+                if (p.getPos().x + k > 7 || p.getPos().y - k < 0) {
+                    break;
+                }
+                if (getSquares(p.getPos().x + k, p.getPos().y - k).getPieceOnSquare() != null) {
+                    int finalK = k;
+                    validMoves.removeIf(s -> s.getX() < p.getPos().x + finalK && s.getY() > p.getPos().x - finalK);
+                    break;
+                }
+            }
+            //up left
+            for (int k = 1; k < 7; k++) {
+                if (p.getPos().x - k < 0 || p.getPos().y - k < 0) {
+                    break;
+                }
+                if (getSquares(p.getPos().x - k, p.getPos().y - k).getPieceOnSquare() != null) {
+                    int finalK = k;
+                    validMoves.removeIf(s -> s.getX() > p.getPos().x - finalK && s.getY() > p.getPos().y - finalK);
+                    break;
+                }
+            }
+        }
+
+        Point[] returnArray = validMoves.toArray(new Point[0]);
+        return returnArray;
+    };
 
     public BoardSquare getSquares(int x, int y) {
         return squares[y][x];

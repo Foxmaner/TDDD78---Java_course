@@ -27,7 +27,8 @@ public class RenderArea extends JComponent {
                 //System.out.println("Pjäs = " + board.getSquaresOnPoint(onBoard).getPieceOnSquare().getClass());
                 if (board.getSquaresOnPoint(onBoard).getPieceOnSquare() != null){
                     setSelectedSquare(onBoard);
-                    validMoves = board.getSquaresOnPoint(onBoard).getPieceOnSquare().validMoves();
+                    validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());
+
                     System.out.println(validMoves);
                 } else {
                     setSelectedSquare(null); //FIXME REMOVE LATER
@@ -40,7 +41,11 @@ public class RenderArea extends JComponent {
     public void setSelectedSquare(Point selectedSquare) {
         this.selectedSquare = selectedSquare;
     }
-
+    /*
+    public Point[] validMoves(Point[] allValidPoints){
+    return [];
+    }
+    */
     @Override
     protected void paintComponent(Graphics g) {
         ImgFetcher fetcher = new ImgFetcher();
@@ -51,8 +56,6 @@ public class RenderArea extends JComponent {
         // background tile color and selected square
         for (int y = 0; y < board.getHeight(); y++) {
             for (int x = 0; x < board.getWidth(); x++) {
-
-
                 BoardSquare current = board.getSquares(x, y);
                 g2d.setColor(current.getColour());
                 g2d.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
