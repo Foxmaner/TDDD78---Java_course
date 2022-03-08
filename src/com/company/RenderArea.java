@@ -11,6 +11,7 @@ public class RenderArea extends JComponent {
     private Board board;
     private int TILE_SIZE = 100;
     private int PEICE_SIZE = 70;
+    private Point[] validMoves;
     private Point selectedSquare = null;
 
 
@@ -26,7 +27,8 @@ public class RenderArea extends JComponent {
                 //System.out.println("Pjäs = " + board.getSquaresOnPoint(onBoard).getPieceOnSquare().getClass());
                 if (board.getSquaresOnPoint(onBoard).getPieceOnSquare() != null){
                     setSelectedSquare(onBoard);
-                    System.out.println(board.getSquaresOnPoint(onBoard).getPieceOnSquare().validMoves());
+                    validMoves = board.getSquaresOnPoint(onBoard).getPieceOnSquare().validMoves();
+                    System.out.println(validMoves);
                 } else {
                     setSelectedSquare(null); //FIXME REMOVE LATER
                 }
@@ -46,9 +48,11 @@ public class RenderArea extends JComponent {
         System.out.println("In Paint");
         final Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.BLACK);
+        // background tile color and selected square
         for (int y = 0; y < board.getHeight(); y++) {
             for (int x = 0; x < board.getWidth(); x++) {
-                // background tile color
+
+
                 BoardSquare current = board.getSquares(x, y);
                 g2d.setColor(current.getColour());
                 g2d.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -59,24 +63,38 @@ public class RenderArea extends JComponent {
                         g2d.fillRect(x * TILE_SIZE + 10, y * TILE_SIZE + 10, TILE_SIZE - 20, TILE_SIZE - 20);
                     }
                 }
+            }
+        }
 
-                // peices
+        if (validMoves != null) {
+            for (int i = 0; i < validMoves.length; i++) {
+                g2d.setColor(new Color(255, 0, 0));
+                g2d.fillRect(validMoves[i].x * TILE_SIZE + 10, validMoves[i].y * TILE_SIZE + 10, TILE_SIZE - 20, TILE_SIZE - 20);
+            }
+        }
+
+        // peices
+        for (int y = 0; y < board.getHeight(); y++) {
+            for (int x = 0; x < board.getWidth(); x++) {
+                BoardSquare current = board.getSquares(x, y);
+
+
                 if (current.getPieceOnSquare() != null) {
-                    //System.out.println(current.getPieceOnSquare().getColor());
+                    /* LEGACY NO IMAGES
                     if(current.getPieceOnSquare().getColor() == Color.WHITE) {
-                        //g2d.setColor(new Color(181, 181, 181));
-                        //g2d.fillRect(x * TILE_SIZE + 15, y * TILE_SIZE  + 15, PEICE_SIZE, PEICE_SIZE);
+                        g2d.setColor(new Color(181, 181, 181));
+                        g2d.fillRect(x * TILE_SIZE + 15, y * TILE_SIZE  + 15, PEICE_SIZE, PEICE_SIZE);
                     } else if (current.getPieceOnSquare().getColor() == Color.BLACK) {
-                       // g2d.setColor(new Color(61, 61, 61));
-                       // g2d.fillRect(x * TILE_SIZE + 15, y * TILE_SIZE  + 15, PEICE_SIZE, PEICE_SIZE);
+                        g2d.setColor(new Color(61, 61, 61));
+                        g2d.fillRect(x * TILE_SIZE + 15, y * TILE_SIZE  + 15, PEICE_SIZE, PEICE_SIZE);
                     }
+                    */
                     g2d.scale(0.05,0.05);
                     g2d.drawImage(fetcher.fetchImage(current.getPieceOnSquare().fileName), x*TILE_SIZE*20, y*TILE_SIZE*20, null);
                     g2d.scale(20,20);
                 }
             }
         }
-
     }
 
 

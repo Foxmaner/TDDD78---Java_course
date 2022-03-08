@@ -21,17 +21,28 @@ public class Bishop extends GamePiece {
     public Point[] validMoves() {
 
 
-        Point[] validMoves = new Point[8];
+        Point[] validMoves = new Point[7*4];
         int i = 0;
-        int k = 1;
-        //one diagonal
-        for (int x = 0; x <= 8; x++) {
-            for (int y = 0; y <= 8; y++) {
-                validMoves[i] = new Point(x, y);
-                i++;
-            }
+        //down right
+        for (int k = 1; k <= 7; k++) {
+            validMoves[i] = new Point(pos.x + k, pos.y + k);
+            i++;
         }
-
+        //down left
+        for (int k = 1; k <= 7; k++) {
+            validMoves[i] = new Point(pos.x - k, pos.y + k);
+            i++;
+        }
+        //up right
+        for (int k = 1; k <= 7; k++) {
+            validMoves[i] = new Point(pos.x + k, pos.y - k);
+            i++;
+        }
+        //up left
+        for (int k = 1; k <= 7; k++) {
+            validMoves[i] = new Point(pos.x - k, pos.y - k);
+            i++;
+        }
 
         return validMoves;
     }

@@ -26,7 +26,7 @@ public class Knight extends GamePiece {
         validMoves[4] = new Point(pos.x - 2, pos.y + 1);
         validMoves[5] = new Point(pos.x + 2, pos.y + 1);
         validMoves[6] = new Point(pos.x - 1, pos.y + 2);
-        validMoves[7] = new Point(pos.x + 1, pos.y - 2);
+        validMoves[7] = new Point(pos.x + 1, pos.y + 2);
         return validMoves;
     }
 }
