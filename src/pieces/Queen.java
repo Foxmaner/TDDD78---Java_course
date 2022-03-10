@@ -12,7 +12,7 @@ public class Queen extends GamePiece {
 
     @Override
     public Point[] validMoves() {
-        Point[] validMoves = new Point[7*4 + 8*2];
+        Point[] validMoves = new Point[7*4 + 7*2];
         int i = 0;
         //diagonals
         //down right
@@ -37,7 +37,7 @@ public class Queen extends GamePiece {
         }
         // straights
         // x axle
-        for (int x = 0; x <= 8; x++) {
+        for (int x = 0; x < 8; x++) {
             if (x == pos.x) {
                 continue;
             }
@@ -45,7 +45,7 @@ public class Queen extends GamePiece {
             i++;
         }
         // y axle
-        for (int y = 0; y <= 8; y++) {
+        for (int y = 0; y < 8; y++) {
             if (y == pos.y) {
                 continue;
             }

@@ -102,6 +102,24 @@ public class Board {
         //All other pieces are not allowed to jump over other pieces
         //Specific for Pawn
         if (p.getClass() == Pawn.class) {
+
+            //Moves are not valid if there is a piece on position
+            validMoves.removeIf(s -> getSquaresOnPoint(s).getPieceOnSquare() != null);
+
+            if (p.getPos().y != 0 && p.getPos().y != 7) {
+                // right
+                if (getSquares(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare() != null &&
+                        getSquares(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare().getColor() != p.getColor()) {
+                    validMoves.add(new Point(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()));
+                }
+
+                // left
+                if (getSquares(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare() != null &&
+                        getSquares(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare().getColor() != p.getColor()) {
+                    validMoves.add(new Point(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()));
+                }
+            }
+
             if (((Pawn) p).getFirstMove()) {
                 if (getSquares(p.getPos().x, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare() != null) {
                     System.out.println("here");
@@ -118,33 +136,33 @@ public class Board {
         //Specific for Rook
         if (p.getClass() == Rook.class) {
             //positive x
-            for (int x = p.getPos().x; x < 8; x++) {
+            for (int x = p.getPos().x + 1; x < 8; x++) {
                 if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
-                    int finalX = x + 1;
+                    int finalX = x;
                     validMoves.removeIf(s -> s.getX() > finalX);
                     break;
                 }
             }
             //negative x
-            for (int x = p.getPos().x; x >= 0; x--) {
+            for (int x = p.getPos().x - 1; x >= 0; x--) {
                 if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
-                    int finalX = x - 1;
+                    int finalX = x;
                     validMoves.removeIf(s -> s.getX() < finalX);
                     break;
                 }
             }
             //positive y
-            for (int y = p.getPos().y; y < 8; y++) {
+            for (int y = p.getPos().y + 1; y < 8; y++) {
                 if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
-                    int finalY = y + 1;
+                    int finalY = y;
                     validMoves.removeIf(s -> s.getY() > finalY);
                     break;
                 }
             }
             //negative y
-            for (int y = p.getPos().y; y >= 0; y--) {
+            for (int y = p.getPos().y - 1; y >= 0; y--) {
                 if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
-                    int finalY = y - 1;
+                    int finalY = y;
                     validMoves.removeIf(s -> s.getY() < finalY);
                     break;
                 }
@@ -156,33 +174,33 @@ public class Board {
         if (p.getClass() == Queen.class) {
             //straights
             //positive x (right)
-            for (int x = p.getPos().x; x < 8; x++) {
+            for (int x = p.getPos().x + 1; x < 8; x++) {
                 if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
-                    int finalX = x + 1;
+                    int finalX = x;
                     validMoves.removeIf(s -> s.getX() > finalX && s.getY() == p.getPos().y);
                     break;
                 }
             }
             //negative x (left)
-            for (int x = p.getPos().x; x >= 0; x--) {
+            for (int x = p.getPos().x - 1; x >= 0; x--) {
                 if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
-                    int finalX = x - 1;
+                    int finalX = x;
                     validMoves.removeIf(s -> s.getX() < finalX && s.getY() == p.getPos().y);
                     break;
                 }
             }
             //positive y (down)
-            for (int y = p.getPos().y; y < 8; y++) {
+            for (int y = p.getPos().y + 1; y < 8; y++) {
                 if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
-                    int finalY = y + 1;
+                    int finalY = y;
                     validMoves.removeIf(s -> s.getY() > finalY && s.getX() == p.getPos().x);
                     break;
                 }
             }
             //negative y (up)
-            for (int y = p.getPos().y; y >= 0; y--) {
+            for (int y = p.getPos().y - 1; y >= 0; y--) {
                 if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
-                    int finalY = y - 1;
+                    int finalY = y;
                     validMoves.removeIf(s -> s.getY() < finalY && s.getX() == p.getPos().x);
                     break;
                 }

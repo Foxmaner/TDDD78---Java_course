@@ -13,10 +13,10 @@ public class Rook extends GamePiece {
     @Override
     public Point[] validMoves() {
 
-        Point[] validMoves = new Point[8*2];
+        Point[] validMoves = new Point[7*2];
         int i = 0;
         // x axle
-        for (int x = 0; x <= 8; x++) {
+        for (int x = 0; x < 8; x++) {
             if (x == pos.x) {
                 continue;
             }
@@ -24,7 +24,7 @@ public class Rook extends GamePiece {
             i++;
         }
         // y axle
-        for (int y = 0; y <= 8; y++) {
+        for (int y = 0; y < 8; y++) {
             if (y == pos.y) {
                 continue;
             }
