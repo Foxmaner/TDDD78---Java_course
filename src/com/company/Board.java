@@ -12,6 +12,8 @@ public class Board {
     private int width;
     private int height;
     private int moveCounter = 0;
+    private Boolean gameOver = false;
+    private String winner;
 
 
     public Board(int width, int height) {
@@ -313,6 +315,12 @@ public class Board {
     public void movePeice(GamePiece p, Point newPos) {
         if (getSquaresOnPoint(p.getPos()).getPieceOnSquare() != null && getSquaresOnPoint(p.getPos()).getPieceOnSquare().getClass() == King.class){
             System.out.println(p.getColor().toString() + " is the winner");
+            gameOver = true;
+            if (p.getColor() == Color.WHITE) {
+                winner = "White";
+            } else if (p.getColor() == Color.BLACK){
+                winner = "Black";
+            }
         }
         setPeiceOnSquareInBoard(null, p.getPos());
         p.movePiece(newPos);
@@ -343,5 +351,9 @@ public class Board {
 
     public int getMoveCounter() {
         return moveCounter;
+    }
+
+    public String getWinner() {
+        return winner;
     }
 }

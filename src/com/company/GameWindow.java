@@ -7,18 +7,21 @@ public class GameWindow extends JFrame {
     private Board board;
     private JFrame frame;
     private RenderArea render;
+    private GameInfo gameInfo;
 
     public GameWindow(Board board){
         this.board = board;
         this.frame = new JFrame("TJACK");
         this.render = new RenderArea(board);
+        this.gameInfo = new GameInfo(board);
     }
 
     @Override
     public void show(){
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        frame.add(render,BorderLayout.CENTER);
+        frame.add(render, BorderLayout.CENTER);
+        frame.add(gameInfo, BorderLayout.EAST);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.pack();
