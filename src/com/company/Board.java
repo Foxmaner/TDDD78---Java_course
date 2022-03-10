@@ -11,6 +11,7 @@ public class Board {
     private BoardSquare[][] squares;
     private int width;
     private int height;
+    private int moveCounter = 0;
 
 
     public Board(int width, int height) {
@@ -108,16 +109,21 @@ public class Board {
 
             if (p.getPos().y != 0 && p.getPos().y != 7) {
                 // right
-                if (getSquares(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare() != null &&
-                        getSquares(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare().getColor() != p.getColor()) {
-                    validMoves.add(new Point(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()));
+                if (p.getPos().x + 1 != 8) {
+                    if (getSquares(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare() != null &&
+                            getSquares(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare().getColor() != p.getColor()) {
+                        validMoves.add(new Point(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()));
+                    }
                 }
 
                 // left
-                if (getSquares(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare() != null &&
-                        getSquares(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare().getColor() != p.getColor()) {
-                    validMoves.add(new Point(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()));
+                if (p.getPos().x - 1 != -1) {
+                    if (getSquares(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare() != null &&
+                            getSquares(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare().getColor() != p.getColor()) {
+                        validMoves.add(new Point(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()));
+                    }
                 }
+
             }
 
             if (((Pawn) p).getFirstMove()) {
@@ -305,9 +311,13 @@ public class Board {
     };
 
     public void movePeice(GamePiece p, Point newPos) {
+        if (getSquaresOnPoint(p.getPos()).getPieceOnSquare() != null && getSquaresOnPoint(p.getPos()).getPieceOnSquare().getClass() == King.class){
+            System.out.println(p.getColor().toString() + " is the winner");
+        }
         setPeiceOnSquareInBoard(null, p.getPos());
         p.movePiece(newPos);
         setPeiceOnSquareInBoard(p, newPos);
+        moveCounter++;
     }
 
     public void setPeiceOnSquareInBoard(GamePiece p, Point pos) {
@@ -329,5 +339,9 @@ public class Board {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getMoveCounter() {
+        return moveCounter;
     }
 }

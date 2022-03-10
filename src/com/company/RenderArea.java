@@ -39,9 +39,14 @@ public class RenderArea extends JComponent {
                     validMoves = null;
                 }
                 if (onBoard != null && board.getSquaresOnPoint(onBoard).getPieceOnSquare() != null){
-                    setSelectedSquare(onBoard);
-                    validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());
 
+                    if (board.getMoveCounter() % 2 == 0 && board.getSquaresOnPoint(onBoard).getPieceOnSquare().getColor() == Color.WHITE) {
+                        setSelectedSquare(onBoard);
+                        validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());
+                    } else if (board.getMoveCounter() % 2 == 1 && board.getSquaresOnPoint(onBoard).getPieceOnSquare().getColor() == Color.BLACK) {
+                        setSelectedSquare(onBoard);
+                        validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());
+                    }
                 } else {
                     setSelectedSquare(null); //FIXME REMOVE LATER
                 }
