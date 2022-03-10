@@ -12,8 +12,8 @@ public class GameWindow extends JFrame {
     public GameWindow(Board board){
         this.board = board;
         this.frame = new JFrame("TJACK");
-        this.render = new RenderArea(board);
         this.gameInfo = new GameInfo(board);
+        this.render = new RenderArea(board, this.gameInfo);
     }
 
     @Override

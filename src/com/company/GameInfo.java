@@ -15,14 +15,34 @@ public class GameInfo extends JPanel {
 
     public GameInfo(Board board) {
         this.board = board;
-
+        this.setLayout(new BorderLayout());
         nrOfRoundsText = new JLabel("RoundNr: " + board.getMoveCounter());
         whosTurnText = new JLabel("Whos turn: " + "White");
-        generalInfo = new JLabel("Winner: "+  "White!");
+        generalInfo = new JLabel("Winner: "+  "No winner yet");
 
-        this.add(nrOfRoundsText);
-        this.add(whosTurnText);
-        this.add(generalInfo);
+        nrOfRoundsText.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+        whosTurnText.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+        generalInfo.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+
+        this.add(nrOfRoundsText, BorderLayout.NORTH);
+        this.add(whosTurnText, BorderLayout.CENTER);
+        this.add(generalInfo, BorderLayout.SOUTH);
+
+
+    }
+
+    public void updateInfo(){
+        System.out.println("updating game info");
+        nrOfRoundsText.setText("RoundNr: " + board.getMoveCounter());
+        if (board.getMoveCounter() % 2 == 0) {
+            whosTurnText.setText("Whos turn: " + "White");
+        } else {
+            whosTurnText.setText("Whos turn: " + "Black");
+        }
+        if (board.getWinner() != null) {
+            generalInfo.setText("Winner: " + board.getWinner());
+        }
+
     }
 
     @Override public Dimension getPreferredSize(){

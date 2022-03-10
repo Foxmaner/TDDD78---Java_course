@@ -13,10 +13,12 @@ public class RenderArea extends JComponent {
     private final int PEICE_SIZE = 70;
     private Point[] validMoves = null;
     private Point selectedSquare = null;
+    private GameInfo gameInfo;
 
 
-    public RenderArea(Board board){
+    public RenderArea(Board board, GameInfo gameInfo){
         this.board = board;
+        this.gameInfo = gameInfo;
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -24,33 +26,35 @@ public class RenderArea extends JComponent {
                 Point mousePosition = new Point(e.getX(), e.getY());
                 Point onBoard = new Point((int) ((e.getX() / TILE_SIZE)), (int) ((e.getY() / TILE_SIZE)));
                 System.out.println("Clicked on square = " + onBoard);
-                if (validMoves != null){
-                    for (int i = 0; i < validMoves.length; i++) {
-                        if (validMoves[i].x == onBoard.x && validMoves[i].y == onBoard.y) {
-                            GamePiece selectedPiece = board.getSquaresOnPoint(selectedSquare).getPieceOnSquare();
-                            System.out.println("moving " + selectedPiece.getClass() + " to " + onBoard.toString());
-                            board.movePeice(selectedPiece, onBoard);
-                            validMoves = null;
-                            selectedSquare = null;
-                            onBoard = null;
-                            break;
+                if (!board.getGameOver()) {
+                    if (validMoves != null) {
+                        for (int i = 0; i < validMoves.length; i++) {
+                            if (validMoves[i].x == onBoard.x && validMoves[i].y == onBoard.y) {
+                                GamePiece selectedPiece = board.getSquaresOnPoint(selectedSquare).getPieceOnSquare();
+                                System.out.println("moving " + selectedPiece.getClass() + " to " + onBoard.toString());
+                                board.movePeice(selectedPiece, onBoard);
+                                validMoves = null;
+                                selectedSquare = null;
+                                onBoard = null;
+                                break;
+                            }
                         }
+                        validMoves = null;
                     }
-                    validMoves = null;
-                }
-                if (onBoard != null && board.getSquaresOnPoint(onBoard).getPieceOnSquare() != null){
+                    if (onBoard != null && board.getSquaresOnPoint(onBoard).getPieceOnSquare() != null) {
 
-                    if (board.getMoveCounter() % 2 == 0 && board.getSquaresOnPoint(onBoard).getPieceOnSquare().getColor() == Color.WHITE) {
-                        setSelectedSquare(onBoard);
-                        validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());
-                    } else if (board.getMoveCounter() % 2 == 1 && board.getSquaresOnPoint(onBoard).getPieceOnSquare().getColor() == Color.BLACK) {
-                        setSelectedSquare(onBoard);
-                        validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());
+                        if (board.getMoveCounter() % 2 == 0 && board.getSquaresOnPoint(onBoard).getPieceOnSquare().getColor() == Color.WHITE) {
+                            setSelectedSquare(onBoard);
+                            validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());
+                        } else if (board.getMoveCounter() % 2 == 1 && board.getSquaresOnPoint(onBoard).getPieceOnSquare().getColor() == Color.BLACK) {
+                            setSelectedSquare(onBoard);
+                            validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());
+                        }
+                    } else {
+                        setSelectedSquare(null); //FIXME REMOVE LATER
                     }
-                } else {
-                    setSelectedSquare(null); //FIXME REMOVE LATER
+                    repaint();
                 }
-                repaint();
             }
         });
     }
@@ -115,6 +119,7 @@ public class RenderArea extends JComponent {
                 }
             }
         }
+        gameInfo.updateInfo();
     }
 
 
