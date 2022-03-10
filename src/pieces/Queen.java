@@ -6,13 +6,8 @@ import java.awt.*;
 
 public class Queen extends GamePiece {
 
-    public Queen(Color c, int x, int y) {
-        super(c, new Point(x, y));
-        if (this.color == Color.WHITE) {
-            fileName = "wQ.png";
-        } else {
-            fileName = "bQ.png";
-        }
+    public Queen(Color c, int x, int y, Image picture) {
+        super(c, new Point(x, y), picture);
     }
 
     @Override

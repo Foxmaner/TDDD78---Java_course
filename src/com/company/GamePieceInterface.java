@@ -16,5 +16,5 @@ public interface GamePieceInterface {
     public Point getPos();
     public void setPos(Point pos);
 
-    public String getFileName();
+    public Image getPicture();
 }

@@ -6,13 +6,8 @@ import java.awt.*;
 
 public class Knight extends GamePiece {
 
-    public Knight(Color c, int x, int y) {
-        super(c, new Point(x, y));
-        if (this.color == Color.WHITE) {
-            fileName = "wN.png";
-        } else {
-            fileName = "bN.png";
-        }
+    public Knight(Color c, int x, int y, Image picture) {
+        super(c, new Point(x, y), picture);
     }
 
     @Override

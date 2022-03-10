@@ -6,13 +6,8 @@ import java.awt.*;
 
 public class Rook extends GamePiece {
 
-    public Rook(Color c, int x, int y) {
-        super(c, new Point(x, y));
-        if (this.color == Color.WHITE) {
-            fileName = "wR.png";
-        } else {
-            fileName = "bR.png";
-        }
+    public Rook(Color c, int x, int y, Image picture) {
+        super(c, new Point(x, y), picture);
     }
 
     @Override

@@ -60,7 +60,7 @@ public class RenderArea extends JComponent {
     */
     @Override
     protected void paintComponent(Graphics g) {
-        ImgFetcher fetcher = new ImgFetcher();
+        //ImgFetcher fetcher = new ImgFetcher();
         super.paintComponent(g);
         //System.out.println("In Paint");
         final Graphics2D g2d = (Graphics2D) g;
@@ -105,7 +105,7 @@ public class RenderArea extends JComponent {
                     }
                     */
                     g2d.scale(0.05,0.05);
-                    g2d.drawImage(fetcher.fetchImage(current.getPieceOnSquare().fileName), x*TILE_SIZE*20, y*TILE_SIZE*20, null);
+                    g2d.drawImage(current.getPieceOnSquare().getPicture(), x*TILE_SIZE*20, y*TILE_SIZE*20, null);
                     g2d.scale(20,20);
                 }
             }

@@ -7,13 +7,8 @@ import java.awt.*;
 
 public class King extends GamePiece {
 
-    public King(Color c, int x, int y) {
-        super(c, new Point(x, y));
-        if (this.color == Color.WHITE) {
-            fileName = "wK.png";
-        } else {
-            fileName = "bK.png";
-        }
+    public King(Color c, int x, int y, Image picture) {
+        super(c, new Point(x, y), picture);
     }
 
     @Override

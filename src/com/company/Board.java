@@ -1,6 +1,7 @@
 package com.company;
 
 import pieces.*;
+import utils.ImgFetcher;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,49 +27,54 @@ public class Board {
                 }
             }
         }
+        //Create image loader
+        ImgFetcher fetcher = new ImgFetcher();
+
+
+
         // Generate pawns
         for (int x = 0; x < getWidth(); x++) {
-            Pawn pBlack = new Pawn(Color.BLACK, x, 1);
+            Pawn pBlack = new Pawn(Color.BLACK, x, 1, fetcher.fetchImage("bP.png"));
             squares[1][x].setPieceOnSquare(pBlack);
-            Pawn pWhite = new Pawn(Color.WHITE, x, 6);
+            Pawn pWhite = new Pawn(Color.WHITE, x, 6, fetcher.fetchImage("wP.png"));
             squares[getHeight()-2][x].setPieceOnSquare(pWhite);
         }
         // Generate Rooks
         for (int x = 0; x < getWidth(); x += 7) {
-            Rook rBlack = new Rook(Color.BLACK, x, 0);
+            Rook rBlack = new Rook(Color.BLACK, x, 0, fetcher.fetchImage("bR.png"));
             squares[0][x].setPieceOnSquare(rBlack);
-            Rook rWhite = new Rook(Color.WHITE, x, 7);
+            Rook rWhite = new Rook(Color.WHITE, x, 7, fetcher.fetchImage("wR.png"));
             squares[getHeight()-1][x].setPieceOnSquare(rWhite);
         }
 
         // Generate Queen
-        Queen qBlack = new Queen(Color.BLACK, 3, 0);
+        Queen qBlack = new Queen(Color.BLACK, 3, 0, fetcher.fetchImage("bQ.png"));
         squares[0][3].setPieceOnSquare(qBlack);
 
-        Queen qWhite = new Queen(Color.WHITE, 3, 7);
+        Queen qWhite = new Queen(Color.WHITE, 3, 7, fetcher.fetchImage("wQ.png"));
         squares[getHeight()-1][3].setPieceOnSquare(qWhite);
 
         //Generate Bishop
         for (int x = 2; x < getWidth()-2; x += 3) {
-            Bishop bBlack = new Bishop(Color.BLACK, x, 0);
+            Bishop bBlack = new Bishop(Color.BLACK, x, 0, fetcher.fetchImage("bB.png"));;
             squares[0][x].setPieceOnSquare(bBlack);
-            Bishop bWhite = new Bishop(Color.WHITE, x, 7);
+            Bishop bWhite = new Bishop(Color.WHITE, x, 7, fetcher.fetchImage("wB.png"));;
             squares[getHeight()-1][x].setPieceOnSquare(bWhite);
         }
 
         // Generate Knight
         for (int x = 1; x < getWidth()-1; x += 5) {
-            Knight kBlack = new Knight(Color.BLACK, x, 0);
+            Knight kBlack = new Knight(Color.BLACK, x, 0, fetcher.fetchImage("bN.png"));
             squares[0][x].setPieceOnSquare(kBlack);
-            Knight kWhite = new Knight(Color.WHITE, x, 7);
+            Knight kWhite = new Knight(Color.WHITE, x, 7, fetcher.fetchImage("wN.png"));
             squares[getHeight()-1][x].setPieceOnSquare(kWhite);
         }
 
         // Generate King
-        King kBlack = new King(Color.BLACK, 4, 0);
+        King kBlack = new King(Color.BLACK, 4, 0, fetcher.fetchImage("bK.png"));
         squares[0][4].setPieceOnSquare(kBlack);
 
-        King kWhite = new King(Color.WHITE, 4, 7);
+        King kWhite = new King(Color.WHITE, 4, 7, fetcher.fetchImage("wK.png"));
         squares[getHeight()-1][4].setPieceOnSquare(kWhite);
 
     }

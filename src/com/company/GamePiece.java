@@ -6,11 +6,12 @@ import java.awt.*;
 public abstract class GamePiece implements GamePieceInterface {
     protected Color color;
     protected Point pos;
-    protected String fileName;
+    protected Image picture;
 
-    public GamePiece(Color c, Point pos){
+    public GamePiece(Color c, Point pos, Image picture){
         this.color = c;
         this.pos = pos;
+        this.picture = picture;
     }
 
     @Override public void movePiece(Point newPos){
@@ -33,5 +34,8 @@ public abstract class GamePiece implements GamePieceInterface {
         this.pos = pos;
     }
 
-    @Override public String getFileName() {return this.fileName;}
+
+    @Override public Image getPicture() {
+        return this.picture;
+    }
 }

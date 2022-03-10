@@ -11,13 +11,11 @@ public class Pawn extends GamePiece {
     Boolean firstMove = true;
     int direction;
 
-    public Pawn(Color c, int x, int y) {
-        super(c, new Point(x, y));
+    public Pawn(Color c, int x, int y, Image picture) {
+        super(c, new Point(x, y), picture);
         if (this.color == Color.WHITE) {
-            fileName = "wP.png";
             direction = -1;
         } else {
-            fileName = "bP.png";
             direction = 1;
         }
     }
