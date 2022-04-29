@@ -21,18 +21,18 @@ public class Rook extends GamePiece {
         int i = 0;
         // x axle
         for (int x = 0; x <= MOVE_LENGTH; x++) {
-            if (x == pos.x) {
+            if (x == this.getX()) {
                 continue;
             }
-            validMoves[i] = new Point(x, pos.y);
+            validMoves[i] = new Point(x, this.getY());
             i++;
         }
         // y axle
         for (int y = 0; y <= MOVE_LENGTH; y++) {
-            if (y == pos.y) {
+            if (y == this.getY()) {
                 continue;
             }
-            validMoves[i] = new Point(pos.x, y);
+            validMoves[i] = new Point(this.getX(), y);
             i++;
         }
 
