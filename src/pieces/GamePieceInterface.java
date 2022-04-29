@@ -1,4 +1,4 @@
-package com.company;
+package pieces;
 
 
 import java.awt.*;

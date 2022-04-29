@@ -1,5 +1,7 @@
 package com.company;
 
+import pieces.GamePiece;
+
 import java.awt.*;
 
 public class BoardSquare {

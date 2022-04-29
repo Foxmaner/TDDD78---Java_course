@@ -1,6 +1,6 @@
 package com.company;
 
-import utils.ImgFetcher;
+import pieces.GamePiece;
 
 import javax.swing.*;
 import java.awt.*;
