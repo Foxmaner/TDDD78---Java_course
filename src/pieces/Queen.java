@@ -16,12 +16,10 @@ public class Queen extends GamePiece {
         final Rook dummyRook = new Rook(this.getColor(), this.getX(), this.getY(), this.picture);
         final Bishop dummyBishop = new Bishop(this.getColor(), this.getX(), this.getY(), this.picture);
 
-        ArrayList<Point> validMoves = new ArrayList();
+        ArrayList<Point> validMoves = new ArrayList<>();
         validMoves.addAll(List.of(dummyRook.validMoves()));
         validMoves.addAll(List.of(dummyBishop.validMoves()));
 
-        Point[] returnArray = validMoves.toArray(new Point[0]);
-
-        return returnArray;
+        return validMoves.toArray(new Point[0]);
     }
 }
