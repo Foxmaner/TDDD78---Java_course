@@ -23,12 +23,12 @@ public class Pawn extends GamePiece {
 
         if (firstMove) {
             Point[] validMoves = new Point[2];
-            validMoves[0] = new Point((int)this.getX(), (int)this.getY() + 1 * direction);
-            validMoves[1] = new Point((int)this.getX(), (int)this.getY() + 2 * direction );
+            validMoves[0] = new Point(this.getX(), this.getY() + direction);
+            validMoves[1] = new Point(this.getX(), this.getY() + 2 * direction );
             return validMoves;
         } else {
             Point[] validMoves = new Point[1];
-            validMoves[0] = new Point((int)this.getX(), (int)this.getY() + 1 * direction);
+            validMoves[0] = new Point(this.getX(), this.getY() + direction);
             return validMoves;
         }
     }
@@ -43,7 +43,7 @@ public class Pawn extends GamePiece {
         return new Point(this.getX() + 1, this.getY() + this.getDirection());
     }
 
-    public Point getPointInfront() {
+    public Point getPointInFront() {
         return new Point(this.getX(), this.getY() + this.getDirection());
     }
 

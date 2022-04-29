@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Board {
     private BoardSquare[][] squares;
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
     private final int BOARD_HEIGHT_OR_WIDTH = 8;
     private final int BOARD_LAST_INDEX = BOARD_HEIGHT_OR_WIDTH - 1;
     private int moveCounter = 0;
@@ -61,9 +61,9 @@ public class Board {
 
         //Generate Bishop
         for (int x = 2; x < getWidth()-2; x += 3) {
-            Bishop bBlack = new Bishop(Color.BLACK, x, 0, fetcher.fetchImage("bB.png"));;
+            Bishop bBlack = new Bishop(Color.BLACK, x, 0, fetcher.fetchImage("bB.png"));
             squares[0][x].setPieceOnSquare(bBlack);
-            Bishop bWhite = new Bishop(Color.WHITE, x, BOARD_LAST_INDEX, fetcher.fetchImage("wB.png"));;
+            Bishop bWhite = new Bishop(Color.WHITE, x, BOARD_LAST_INDEX, fetcher.fetchImage("wB.png"));
             squares[getHeight()-1][x].setPieceOnSquare(bWhite);
         }
 
@@ -87,7 +87,7 @@ public class Board {
     public Point[] validMovesFilter(GamePiece p){
 
         System.out.println("number of moves in: " + p.validMoves().length);
-        ArrayList<Point> validMoves = new ArrayList(List.of(p.validMoves()));
+        ArrayList<Point> validMoves = new ArrayList<>(List.of(p.validMoves()));
 
         //Moves are not valid if out of bounds
         validMoves.removeIf(s -> s.getX() < 0);
@@ -96,7 +96,7 @@ public class Board {
         validMoves.removeIf(s -> s.getY() > BOARD_LAST_INDEX);
 
         //Moves are not valid if there is a friendly piece on position
-        validMoves.removeIf(s -> getSquaresOnPoint(s).getPieceOnSquare() != null && getPieceOnSqaureOnPoint(s).getColor() == p.getColor());
+        validMoves.removeIf(s -> getSquaresOnPoint(s).getPieceOnSquare() != null && getPieceOnSquareOnPoint(s).getColor() == p.getColor());
 
 
         //All other pieces are not allowed to jump over other pieces
@@ -110,21 +110,21 @@ public class Board {
                 // right
                 if (p.getX() + 1 != BOARD_HEIGHT_OR_WIDTH) { // not out of bounds
                     if (getSquaresOnPoint(((Pawn) p).getRightAttackSquare()).isSquareOccupied() &&
-                            getPieceOnSqaureOnPoint(((Pawn) p).getRightAttackSquare()).getColor() != p.getColor()) {
+                            getPieceOnSquareOnPoint(((Pawn) p).getRightAttackSquare()).getColor() != p.getColor()) {
                         validMoves.add(((Pawn) p).getRightAttackSquare());
                     }
                 }
                 // left
                 if (p.getX() - 1 != -1) { // not out of bounds
                     if (getSquaresOnPoint(((Pawn) p).getLeftAttackSquare()).isSquareOccupied() &&
-                            getPieceOnSqaureOnPoint(((Pawn) p).getLeftAttackSquare()).getColor() != p.getColor()) {
+                            getPieceOnSquareOnPoint(((Pawn) p).getLeftAttackSquare()).getColor() != p.getColor()) {
                         validMoves.add(((Pawn) p).getLeftAttackSquare());
                     }
                 }
             }
             // check if piece is in the way of first move
             if (((Pawn) p).getFirstMove()) {
-                if (getSquaresOnPoint(((Pawn) p).getPointInfront()).isSquareOccupied()) {
+                if (getSquaresOnPoint(((Pawn) p).getPointInFront()).isSquareOccupied()) {
                     if (((Pawn) p).getDirection() == 1){ //if is black
                         validMoves.removeIf(s -> s.getY() == p.getY() + ((Pawn) p).getDirection() * 2);
                     } else { // else (white)
@@ -303,9 +303,9 @@ public class Board {
         Point[] returnArray = validMoves.toArray(new Point[0]);
         System.out.println("number of moves out: " + returnArray.length);
         return returnArray;
-    };
+    }
 
-    public void movePeice(GamePiece p, Point newPos) {
+    public void movePiece(GamePiece p, Point newPos) {
         if (getSquaresOnPoint(newPos).getPieceOnSquare() != null && getSquaresOnPoint(newPos).getPieceOnSquare().getClass() == King.class){
             gameOver = true;
             if (p.getColor() == Color.WHITE) {
@@ -314,13 +314,13 @@ public class Board {
                 winner = "Black";
             }
         }
-        setPeiceOnSquareInBoard(null, p.getPos());
+        setPieceOnSquareInBoard(null, p.getPos());
         p.movePiece(newPos);
-        setPeiceOnSquareInBoard(p, newPos);
+        setPieceOnSquareInBoard(p, newPos);
         moveCounter++;
     }
 
-    public void setPeiceOnSquareInBoard(GamePiece p, Point pos) {
+    public void setPieceOnSquareInBoard(GamePiece p, Point pos) {
         BoardSquare square = getSquaresOnPoint(pos);
         square.setPieceOnSquare(p);
     }
@@ -337,7 +337,7 @@ public class Board {
         return squares[point.y][point.x];
     }
 
-    public GamePiece getPieceOnSqaureOnPoint(Point p) {
+    public GamePiece getPieceOnSquareOnPoint(Point p) {
         return getSquaresOnPoint(p).getPieceOnSquare();
     }
 

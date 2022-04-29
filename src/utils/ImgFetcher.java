@@ -1,7 +1,6 @@
 package utils;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -17,10 +16,11 @@ public class ImgFetcher {
         try{
             URL path = this.getClass().getResource("/resources/" + imgInputPath);
 
+            assert path != null;
             image = ImageIO.read(path);
 
         }catch(IOException e){
-            System.out.println("Feeel: " + e.toString());
+            System.out.println("Error whilst loading image: " + e);
         }
 
         return image;

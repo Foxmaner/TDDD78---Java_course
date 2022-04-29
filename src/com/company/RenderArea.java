@@ -23,16 +23,15 @@ public class RenderArea extends JComponent {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                Point mousePosition = new Point(e.getX(), e.getY());
                 Point onBoard = new Point((int) ((e.getX() / TILE_SIZE)), (int) ((e.getY() / TILE_SIZE)));
                 System.out.println("Clicked on square = " + onBoard);
                 if (!board.getGameOver()) {
                     if (validMoves != null) {
                         for (int i = 0; i < validMoves.length; i++) {
                             if (validMoves[i].x == onBoard.x && validMoves[i].y == onBoard.y) {
-                                GamePiece selectedPiece = board.getPieceOnSqaureOnPoint(selectedSquare);
-                                System.out.println("moving " + selectedPiece.getClass() + " to " + onBoard.toString());
-                                board.movePeice(selectedPiece, onBoard);
+                                GamePiece selectedPiece = board.getPieceOnSquareOnPoint(selectedSquare);
+                                System.out.println("moving " + selectedPiece.getClass() + " to " + onBoard);
+                                board.movePiece(selectedPiece, onBoard);
                                 validMoves = null;
                                 selectedSquare = null;
                                 onBoard = null;
@@ -41,14 +40,14 @@ public class RenderArea extends JComponent {
                         }
                         validMoves = null;
                     }
-                    if (onBoard != null && board.getPieceOnSqaureOnPoint(onBoard) != null) {
+                    if (onBoard != null && board.getPieceOnSquareOnPoint(onBoard) != null) {
 
-                        if (board.getMoveCounter() % 2 == 0 && board.getPieceOnSqaureOnPoint(onBoard).getColor() == Color.WHITE) {
+                        if (board.getMoveCounter() % 2 == 0 && board.getPieceOnSquareOnPoint(onBoard).getColor() == Color.WHITE) {
                             setSelectedSquare(onBoard);
-                            validMoves = board.validMovesFilter(board.getPieceOnSqaureOnPoint(onBoard));
-                        } else if (board.getMoveCounter() % 2 == 1 && board.getPieceOnSqaureOnPoint(onBoard).getColor() == Color.BLACK) {
+                            validMoves = board.validMovesFilter(board.getPieceOnSquareOnPoint(onBoard));
+                        } else if (board.getMoveCounter() % 2 == 1 && board.getPieceOnSquareOnPoint(onBoard).getColor() == Color.BLACK) {
                             setSelectedSquare(onBoard);
-                            validMoves = board.validMovesFilter(board.getPieceOnSqaureOnPoint(onBoard));
+                            validMoves = board.validMovesFilter(board.getPieceOnSquareOnPoint(onBoard));
                         }
                     } else {
                         setSelectedSquare(null); //FIXME REMOVE LATER
@@ -91,13 +90,13 @@ public class RenderArea extends JComponent {
         }
 
         if (validMoves != null) {
-            for (int i = 0; i < validMoves.length; i++) {
+            for (Point validMove : validMoves) {
                 g2d.setColor(new Color(255, 0, 0));
-                g2d.fillRect(validMoves[i].x * TILE_SIZE + SELECTED_PIECE_PADDING, validMoves[i].y * TILE_SIZE + SELECTED_PIECE_PADDING, TILE_SIZE - SELECTED_PIECE_PADDING*2, TILE_SIZE - SELECTED_PIECE_PADDING*2);
+                g2d.fillRect(validMove.x * TILE_SIZE + SELECTED_PIECE_PADDING, validMove.y * TILE_SIZE + SELECTED_PIECE_PADDING, TILE_SIZE - SELECTED_PIECE_PADDING * 2, TILE_SIZE - SELECTED_PIECE_PADDING * 2);
             }
         }
 
-        // peices
+        // pieces
         for (int y = 0; y < board.getHeight(); y++) {
             for (int x = 0; x < board.getWidth(); x++) {
                 BoardSquare current = board.getSquares(x, y);

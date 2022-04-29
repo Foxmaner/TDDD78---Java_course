@@ -19,7 +19,7 @@ public class GameInfo extends JPanel {
         this.board = board;
         this.setLayout(new BorderLayout());
         nrOfRoundsText = new JLabel("RoundNr: " + board.getMoveCounter());
-        whosTurnText = new JLabel("Whos turn: " + "White");
+        whosTurnText = new JLabel("Who's turn: " + "White");
         generalInfo = new JLabel("Winner: "+  "No winner yet");
 
         nrOfRoundsText.setFont(new Font("Comic Sans MS", Font.PLAIN, FONT_SIZE));
@@ -37,9 +37,9 @@ public class GameInfo extends JPanel {
         System.out.println("updating game info");
         nrOfRoundsText.setText("RoundNr: " + board.getMoveCounter());
         if (board.getMoveCounter() % 2 == 0) {
-            whosTurnText.setText("Whos turn: " + "White");
+            whosTurnText.setText("Who's turn: " + "White");
         } else {
-            whosTurnText.setText("Whos turn: " + "Black");
+            whosTurnText.setText("Who's turn: " + "Black");
         }
         if (board.getWinner() != null) {
             generalInfo.setText("Winner: " + board.getWinner());

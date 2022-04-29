@@ -13,10 +13,6 @@ public class BoardSquare {
         this.pieceOnSquare = null;
     }
 
-    public Boolean isSquareEmpty() {
-        return this.pieceOnSquare == null;
-    }
-
     public Boolean isSquareOccupied() {
         return this.pieceOnSquare != null;
     }
