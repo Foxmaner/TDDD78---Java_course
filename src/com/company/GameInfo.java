@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class GameInfo extends JPanel {
     private Board board;
+
     public int TILE_SIZE = 100;
 
     private JLabel nrOfRoundsText;
