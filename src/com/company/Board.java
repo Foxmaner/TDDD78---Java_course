@@ -96,38 +96,31 @@ public class Board {
         validMoves.removeIf(s -> s.getY() > BOARD_LAST_INDEX);
 
         //Moves are not valid if there is a friendly piece on position
-        validMoves.removeIf(s -> getSquaresOnPoint(s).getPieceOnSquare() != null && getSquaresOnPoint(s).getPieceOnSquare().getColor() == p.getColor());
+        validMoves.removeIf(s -> getSquaresOnPoint(s).getPieceOnSquare() != null && getPieceOnSqaureOnPoint(s).getColor() == p.getColor());
 
-        //Knights can jump over friendly, so we can return now
-        if (p.getClass() == Knight.class) {
-            Point[] returnArray = validMoves.toArray(new Point[0]);
-            return returnArray;
-        }
 
         //All other pieces are not allowed to jump over other pieces
         //Specific for Pawn
-        if (p.getClass() == Pawn.class) {
+        if (p instanceof Pawn) {
 
             //Moves are not valid if there is a piece on position
             validMoves.removeIf(s -> !isBoardSquareEmpty(s));
 
-            if (p.getPos().y != 0 && p.getY() != BOARD_LAST_INDEX) {
+            if (p.getY() != 0 && p.getY() != BOARD_LAST_INDEX) {
                 // right
-                if (p.getPos().x + 1 != BOARD_HEIGHT_OR_WIDTH) {
+                if (p.getX() + 1 != BOARD_HEIGHT_OR_WIDTH) { // not out of bounds
                     if (getSquaresOnPoint(((Pawn) p).getRightAttackSquare()).isSquareOccupied() &&
                             getPieceOnSqaureOnPoint(((Pawn) p).getRightAttackSquare()).getColor() != p.getColor()) {
                         validMoves.add(((Pawn) p).getRightAttackSquare());
                     }
                 }
-
                 // left
-                if (p.getPos().x - 1 != -1) {
+                if (p.getX() - 1 != -1) { // not out of bounds
                     if (getSquaresOnPoint(((Pawn) p).getLeftAttackSquare()).isSquareOccupied() &&
                             getPieceOnSqaureOnPoint(((Pawn) p).getLeftAttackSquare()).getColor() != p.getColor()) {
                         validMoves.add(((Pawn) p).getLeftAttackSquare());
                     }
                 }
-
             }
             // check if piece is in the way of first move
             if (((Pawn) p).getFirstMove()) {
@@ -141,7 +134,7 @@ public class Board {
             }
         }
         //Specific for Rook
-        if (p.getClass() == Rook.class) {
+        else if (p instanceof Rook) {
             //positive x
             for (int x = p.getX() + 1; x < BOARD_HEIGHT_OR_WIDTH; x++) {
                 if (getSquares(x, p.getY()).getPieceOnSquare() != null) {
@@ -176,9 +169,8 @@ public class Board {
             }
         }
 
-
         //Specific for Queen
-        if (p.getClass() == Queen.class) {
+        else if (p instanceof Queen) {
             //straights
             //positive x (right)
             for (int x = p.getX() + 1; x < BOARD_HEIGHT_OR_WIDTH; x++) {
@@ -259,7 +251,7 @@ public class Board {
         }
 
         //Specific for Bishop
-        if (p.getClass() == Bishop.class) {
+        else if (p instanceof Bishop) {
             //down right
             for (int k = 1; k < BOARD_LAST_INDEX; k++) {
                 if (p.getX() + k > BOARD_LAST_INDEX || p.getY() + k > 7) {
@@ -305,6 +297,8 @@ public class Board {
                 }
             }
         }
+
+        //Knights can jump over friendly, so no need to filter moves further.
 
         Point[] returnArray = validMoves.toArray(new Point[0]);
         System.out.println("number of moves out: " + returnArray.length);

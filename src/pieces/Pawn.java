@@ -48,7 +48,7 @@ public class Pawn extends GamePiece {
     }
 
     public Point getLeftAttackSquare() {
-        return new Point(this.getPos().x - 1, this.getPos().y + this.getDirection());
+        return new Point(this.getX() - 1, this.getY() + this.getDirection());
     }
 
     public Boolean getFirstMove() {

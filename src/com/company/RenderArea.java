@@ -30,7 +30,7 @@ public class RenderArea extends JComponent {
                     if (validMoves != null) {
                         for (int i = 0; i < validMoves.length; i++) {
                             if (validMoves[i].x == onBoard.x && validMoves[i].y == onBoard.y) {
-                                GamePiece selectedPiece = board.getSquaresOnPoint(selectedSquare).getPieceOnSquare();
+                                GamePiece selectedPiece = board.getPieceOnSqaureOnPoint(selectedSquare);
                                 System.out.println("moving " + selectedPiece.getClass() + " to " + onBoard.toString());
                                 board.movePeice(selectedPiece, onBoard);
                                 validMoves = null;
@@ -41,14 +41,14 @@ public class RenderArea extends JComponent {
                         }
                         validMoves = null;
                     }
-                    if (onBoard != null && board.getSquaresOnPoint(onBoard).getPieceOnSquare() != null) {
+                    if (onBoard != null && board.getPieceOnSqaureOnPoint(onBoard) != null) {
 
-                        if (board.getMoveCounter() % 2 == 0 && board.getSquaresOnPoint(onBoard).getPieceOnSquare().getColor() == Color.WHITE) {
+                        if (board.getMoveCounter() % 2 == 0 && board.getPieceOnSqaureOnPoint(onBoard).getColor() == Color.WHITE) {
                             setSelectedSquare(onBoard);
-                            validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());
-                        } else if (board.getMoveCounter() % 2 == 1 && board.getSquaresOnPoint(onBoard).getPieceOnSquare().getColor() == Color.BLACK) {
+                            validMoves = board.validMovesFilter(board.getPieceOnSqaureOnPoint(onBoard));
+                        } else if (board.getMoveCounter() % 2 == 1 && board.getPieceOnSqaureOnPoint(onBoard).getColor() == Color.BLACK) {
                             setSelectedSquare(onBoard);
-                            validMoves = board.validMovesFilter(board.getSquaresOnPoint(onBoard).getPieceOnSquare());
+                            validMoves = board.validMovesFilter(board.getPieceOnSqaureOnPoint(onBoard));
                         }
                     } else {
                         setSelectedSquare(null); //FIXME REMOVE LATER
