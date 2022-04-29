@@ -20,7 +20,6 @@ public class ImgFetcher {
             image = ImageIO.read(path);
 
         }catch(IOException e){
-            //JOptionPane.showMessageDialog(null,"AHHHHH!!! Något gick fel: " + e,"Feeel");
             System.out.println("Feeel: " + e.toString());
         }
 

@@ -12,27 +12,29 @@ public class Bishop extends GamePiece {
     @Override
     public Point[] validMoves() {
 
+        final int MOVE_LENGTH = 7;
+        final int DIRECTIONS = 4;
 
-        Point[] validMoves = new Point[7*4];
+        Point[] validMoves = new Point[MOVE_LENGTH *DIRECTIONS];
         int i = 0;
         //down right
-        for (int k = 1; k <= 7; k++) {
-            validMoves[i] = new Point(pos.x + k, pos.y + k);
+        for (int k = 1; k <= MOVE_LENGTH; k++) {
+            validMoves[i] = new Point(getX() + k, getY() + k);
             i++;
         }
         //down left
-        for (int k = 1; k <= 7; k++) {
-            validMoves[i] = new Point(pos.x - k, pos.y + k);
+        for (int k = 1; k <= MOVE_LENGTH; k++) {
+            validMoves[i] = new Point(getX() - k, getY() + k);
             i++;
         }
         //up right
-        for (int k = 1; k <= 7; k++) {
-            validMoves[i] = new Point(pos.x + k, pos.y - k);
+        for (int k = 1; k <= MOVE_LENGTH; k++) {
+            validMoves[i] = new Point(getX() + k, getY() - k);
             i++;
         }
         //up left
-        for (int k = 1; k <= 7; k++) {
-            validMoves[i] = new Point(pos.x - k, pos.y - k);
+        for (int k = 1; k <= MOVE_LENGTH; k++) {
+            validMoves[i] = new Point(getX() - k, getY() - k);
             i++;
         }
 

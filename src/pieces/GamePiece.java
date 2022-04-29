@@ -30,6 +30,14 @@ public abstract class GamePiece implements GamePieceInterface {
         return pos;
     }
 
+    @Override public int getX() {
+        return this.pos.x;
+    }
+
+    @Override public int getY() {
+        return this.pos.y;
+    }
+
     @Override public void setPos(Point pos) {
         this.pos = pos;
     }

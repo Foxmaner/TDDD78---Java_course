@@ -11,6 +11,8 @@ public class Board {
     private BoardSquare[][] squares;
     private int width;
     private int height;
+    private final int BOARD_HEIGHT_OR_WIDTH = 8;
+    private final int BOARD_LAST_INDEX = BOARD_HEIGHT_OR_WIDTH - 1;
     private int moveCounter = 0;
     private Boolean gameOver = false;
     private String winner;
@@ -43,10 +45,10 @@ public class Board {
             squares[getHeight()-2][x].setPieceOnSquare(pWhite);
         }
         // Generate Rooks
-        for (int x = 0; x < getWidth(); x += 7) {
+        for (int x = 0; x < getWidth(); x += BOARD_LAST_INDEX) {
             Rook rBlack = new Rook(Color.BLACK, x, 0, fetcher.fetchImage("bR.png"));
             squares[0][x].setPieceOnSquare(rBlack);
-            Rook rWhite = new Rook(Color.WHITE, x, 7, fetcher.fetchImage("wR.png"));
+            Rook rWhite = new Rook(Color.WHITE, x, BOARD_LAST_INDEX, fetcher.fetchImage("wR.png"));
             squares[getHeight()-1][x].setPieceOnSquare(rWhite);
         }
 
@@ -54,14 +56,14 @@ public class Board {
         Queen qBlack = new Queen(Color.BLACK, 3, 0, fetcher.fetchImage("bQ.png"));
         squares[0][3].setPieceOnSquare(qBlack);
 
-        Queen qWhite = new Queen(Color.WHITE, 3, 7, fetcher.fetchImage("wQ.png"));
+        Queen qWhite = new Queen(Color.WHITE, 3, BOARD_LAST_INDEX, fetcher.fetchImage("wQ.png"));
         squares[getHeight()-1][3].setPieceOnSquare(qWhite);
 
         //Generate Bishop
         for (int x = 2; x < getWidth()-2; x += 3) {
             Bishop bBlack = new Bishop(Color.BLACK, x, 0, fetcher.fetchImage("bB.png"));;
             squares[0][x].setPieceOnSquare(bBlack);
-            Bishop bWhite = new Bishop(Color.WHITE, x, 7, fetcher.fetchImage("wB.png"));;
+            Bishop bWhite = new Bishop(Color.WHITE, x, BOARD_LAST_INDEX, fetcher.fetchImage("wB.png"));;
             squares[getHeight()-1][x].setPieceOnSquare(bWhite);
         }
 
@@ -77,7 +79,7 @@ public class Board {
         King kBlack = new King(Color.BLACK, 4, 0, fetcher.fetchImage("bK.png"));
         squares[0][4].setPieceOnSquare(kBlack);
 
-        King kWhite = new King(Color.WHITE, 4, 7, fetcher.fetchImage("wK.png"));
+        King kWhite = new King(Color.WHITE, 4, BOARD_LAST_INDEX, fetcher.fetchImage("wK.png"));
         squares[getHeight()-1][4].setPieceOnSquare(kWhite);
 
     }
@@ -89,9 +91,9 @@ public class Board {
 
         //Moves are not valid if out of bounds
         validMoves.removeIf(s -> s.getX() < 0);
-        validMoves.removeIf(s -> s.getX() > 7);
+        validMoves.removeIf(s -> s.getX() > BOARD_LAST_INDEX);
         validMoves.removeIf(s -> s.getY() < 0);
-        validMoves.removeIf(s -> s.getY() > 7);
+        validMoves.removeIf(s -> s.getY() > BOARD_LAST_INDEX);
 
         //Moves are not valid if there is a friendly piece on position
         validMoves.removeIf(s -> getSquaresOnPoint(s).getPieceOnSquare() != null && getSquaresOnPoint(s).getPieceOnSquare().getColor() == p.getColor());
@@ -107,36 +109,33 @@ public class Board {
         if (p.getClass() == Pawn.class) {
 
             //Moves are not valid if there is a piece on position
-            validMoves.removeIf(s -> getSquaresOnPoint(s).getPieceOnSquare() != null);
+            validMoves.removeIf(s -> !isBoardSquareEmpty(s));
 
-            if (p.getPos().y != 0 && p.getPos().y != 7) {
+            if (p.getPos().y != 0 && p.getY() != BOARD_LAST_INDEX) {
                 // right
-                if (p.getPos().x + 1 != 8) {
-                    if (getSquares(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare() != null &&
-                            getSquares(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare().getColor() != p.getColor()) {
-                        validMoves.add(new Point(p.getPos().x + 1, p.getPos().y + ((Pawn) p).getDirection()));
+                if (p.getPos().x + 1 != BOARD_HEIGHT_OR_WIDTH) {
+                    if (getSquaresOnPoint(((Pawn) p).getRightAttackSquare()).isSquareOccupied() &&
+                            getPieceOnSqaureOnPoint(((Pawn) p).getRightAttackSquare()).getColor() != p.getColor()) {
+                        validMoves.add(((Pawn) p).getRightAttackSquare());
                     }
                 }
 
                 // left
                 if (p.getPos().x - 1 != -1) {
-                    if (getSquares(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare() != null &&
-                            getSquares(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare().getColor() != p.getColor()) {
-                        validMoves.add(new Point(p.getPos().x - 1, p.getPos().y + ((Pawn) p).getDirection()));
+                    if (getSquaresOnPoint(((Pawn) p).getLeftAttackSquare()).isSquareOccupied() &&
+                            getPieceOnSqaureOnPoint(((Pawn) p).getLeftAttackSquare()).getColor() != p.getColor()) {
+                        validMoves.add(((Pawn) p).getLeftAttackSquare());
                     }
                 }
 
             }
-
+            // check if piece is in the way of first move
             if (((Pawn) p).getFirstMove()) {
-                if (getSquares(p.getPos().x, p.getPos().y + ((Pawn) p).getDirection()).getPieceOnSquare() != null) {
-                    System.out.println("here");
+                if (getSquaresOnPoint(((Pawn) p).getPointInfront()).isSquareOccupied()) {
                     if (((Pawn) p).getDirection() == 1){ //if is black
-                        System.out.println("black");
-                        validMoves.removeIf(s -> s.getY() == p.getPos().y + ((Pawn) p).getDirection() * 2);
+                        validMoves.removeIf(s -> s.getY() == p.getY() + ((Pawn) p).getDirection() * 2);
                     } else { // else (white)
-                        System.out.println("white");
-                        validMoves.removeIf(s -> s.getY() == p.getPos().y + ((Pawn) p).getDirection() * 2);
+                        validMoves.removeIf(s -> s.getY() == p.getY() + ((Pawn) p).getDirection() * 2);
                     }
                 }
             }
@@ -144,32 +143,32 @@ public class Board {
         //Specific for Rook
         if (p.getClass() == Rook.class) {
             //positive x
-            for (int x = p.getPos().x + 1; x < 8; x++) {
-                if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
+            for (int x = p.getX() + 1; x < BOARD_HEIGHT_OR_WIDTH; x++) {
+                if (getSquares(x, p.getY()).getPieceOnSquare() != null) {
                     int finalX = x;
                     validMoves.removeIf(s -> s.getX() > finalX);
                     break;
                 }
             }
             //negative x
-            for (int x = p.getPos().x - 1; x >= 0; x--) {
-                if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
+            for (int x = p.getX() - 1; x >= 0; x--) {
+                if (getSquares(x, p.getY()).getPieceOnSquare() != null) {
                     int finalX = x;
                     validMoves.removeIf(s -> s.getX() < finalX);
                     break;
                 }
             }
             //positive y
-            for (int y = p.getPos().y + 1; y < 8; y++) {
-                if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
+            for (int y = p.getY() + 1; y < BOARD_HEIGHT_OR_WIDTH; y++) {
+                if (getSquares(p.getX(), y).getPieceOnSquare() != null) {
                     int finalY = y;
                     validMoves.removeIf(s -> s.getY() > finalY);
                     break;
                 }
             }
             //negative y
-            for (int y = p.getPos().y - 1; y >= 0; y--) {
-                if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
+            for (int y = p.getY() - 1; y >= 0; y--) {
+                if (getSquares(p.getX(), y).getPieceOnSquare() != null) {
                     int finalY = y;
                     validMoves.removeIf(s -> s.getY() < finalY);
                     break;
@@ -178,82 +177,82 @@ public class Board {
         }
 
 
-        //Specific for QUEEEN
+        //Specific for Queen
         if (p.getClass() == Queen.class) {
             //straights
             //positive x (right)
-            for (int x = p.getPos().x + 1; x < 8; x++) {
-                if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
+            for (int x = p.getX() + 1; x < BOARD_HEIGHT_OR_WIDTH; x++) {
+                if (getSquares(x, p.getY()).getPieceOnSquare() != null) {
                     int finalX = x;
-                    validMoves.removeIf(s -> s.getX() > finalX && s.getY() == p.getPos().y);
+                    validMoves.removeIf(s -> s.getX() > finalX && s.getY() == p.getY());
                     break;
                 }
             }
             //negative x (left)
-            for (int x = p.getPos().x - 1; x >= 0; x--) {
-                if (getSquares(x, p.getPos().y).getPieceOnSquare() != null) {
+            for (int x = p.getX() - 1; x >= 0; x--) {
+                if (getSquares(x, p.getY()).getPieceOnSquare() != null) {
                     int finalX = x;
-                    validMoves.removeIf(s -> s.getX() < finalX && s.getY() == p.getPos().y);
+                    validMoves.removeIf(s -> s.getX() < finalX && s.getY() == p.getY());
                     break;
                 }
             }
             //positive y (down)
-            for (int y = p.getPos().y + 1; y < 8; y++) {
-                if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
+            for (int y = p.getY() + 1; y < BOARD_HEIGHT_OR_WIDTH; y++) {
+                if (getSquares(p.getX(), y).getPieceOnSquare() != null) {
                     int finalY = y;
-                    validMoves.removeIf(s -> s.getY() > finalY && s.getX() == p.getPos().x);
+                    validMoves.removeIf(s -> s.getY() > finalY && s.getX() == p.getX());
                     break;
                 }
             }
             //negative y (up)
-            for (int y = p.getPos().y - 1; y >= 0; y--) {
-                if (getSquares(p.getPos().x, y).getPieceOnSquare() != null) {
+            for (int y = p.getY() - 1; y >= 0; y--) {
+                if (getSquares(p.getX(), y).getPieceOnSquare() != null) {
                     int finalY = y;
-                    validMoves.removeIf(s -> s.getY() < finalY && s.getX() == p.getPos().x);
+                    validMoves.removeIf(s -> s.getY() < finalY && s.getX() == p.getX());
                     break;
                 }
             }
             //down right
-            for (int k = 1; k < 7; k++) {
-                if (p.getPos().x + k > 7 || p.getPos().y + k > 7) {
+            for (int k = 1; k < BOARD_LAST_INDEX; k++) {
+                if (p.getX() + k > BOARD_LAST_INDEX || p.getY() + k > 7) {
                     break;
                 }
-                if (getSquares(p.getPos().x + k, p.getPos().y + k).getPieceOnSquare() != null) {
+                if (getSquares(p.getX() + k, p.getY() + k).getPieceOnSquare() != null) {
                     int finalK = k;
-                    validMoves.removeIf(s -> s.getX() > p.getPos().x + finalK && s.getY() > p.getPos().y + finalK);
+                    validMoves.removeIf(s -> s.getX() > p.getX() + finalK && s.getY() > p.getY() + finalK);
                     break;
                 }
             }
             //down left
-            for (int k = 1; k < 7; k++) {
-                if (p.getPos().x - k < 0 || p.getPos().y + k > 7) {
+            for (int k = 1; k < BOARD_LAST_INDEX; k++) {
+                if (p.getPos().x - k < 0 || p.getY() + k > 7) {
                     break;
                 }
-                if (getSquares(p.getPos().x - k, p.getPos().y + k).getPieceOnSquare() != null) {
+                if (getSquares(p.getX() - k, p.getY() + k).getPieceOnSquare() != null) {
                     int finalK = k;
-                    validMoves.removeIf(s -> s.getX() < p.getPos().x - finalK && s.getY() > p.getPos().y + finalK);
+                    validMoves.removeIf(s -> s.getX() < p.getX() - finalK && s.getY() > p.getY() + finalK);
                     break;
                 }
             }
             //up right
-            for (int k = 1; k < 7; k++) {
-                if (p.getPos().x + k > 7 || p.getPos().y - k < 0) {
+            for (int k = 1; k < BOARD_LAST_INDEX; k++) {
+                if (p.getX() + k > BOARD_LAST_INDEX || p.getY() - k < 0) {
                     break;
                 }
-                if (getSquares(p.getPos().x + k, p.getPos().y - k).getPieceOnSquare() != null) {
+                if (getSquares(p.getX() + k, p.getY() - k).getPieceOnSquare() != null) {
                     int finalK = k;
-                    validMoves.removeIf(s -> s.getX() > p.getPos().x + finalK && s.getY() < p.getPos().y - finalK);
+                    validMoves.removeIf(s -> s.getX() > p.getX() + finalK && s.getY() < p.getY() - finalK);
                     break;
                 }
             }
             //up left
-            for (int k = 1; k < 7; k++) {
-                if (p.getPos().x - k < 0 || p.getPos().y - k < 0) {
+            for (int k = 1; k < BOARD_LAST_INDEX; k++) {
+                if (p.getX() - k < 0 || p.getY() - k < 0) {
                     break;
                 }
-                if (getSquares(p.getPos().x - k, p.getPos().y - k).getPieceOnSquare() != null) {
+                if (getSquares(p.getX() - k, p.getY() - k).getPieceOnSquare() != null) {
                     int finalK = k;
-                    validMoves.removeIf(s -> s.getX() < p.getPos().x - finalK && s.getY() < p.getPos().y - finalK);
+                    validMoves.removeIf(s -> s.getX() < p.getX() - finalK && s.getY() < p.getY() - finalK);
                     break;
                 }
             }
@@ -262,46 +261,46 @@ public class Board {
         //Specific for Bishop
         if (p.getClass() == Bishop.class) {
             //down right
-            for (int k = 1; k < 7; k++) {
-                if (p.getPos().x + k > 7 || p.getPos().y + k > 7) {
+            for (int k = 1; k < BOARD_LAST_INDEX; k++) {
+                if (p.getX() + k > BOARD_LAST_INDEX || p.getY() + k > 7) {
                     break;
                 }
-                if (getSquares(p.getPos().x + k, p.getPos().y + k).getPieceOnSquare() != null) {
+                if (getSquares(p.getX() + k, p.getY() + k).getPieceOnSquare() != null) {
                     int finalK = k;
-                    validMoves.removeIf(s -> s.getX() > p.getPos().x + finalK && s.getY() > p.getPos().y + finalK);
+                    validMoves.removeIf(s -> s.getX() > p.getX() + finalK && s.getY() > p.getY() + finalK);
                     break;
                 }
             }
             //down left
-            for (int k = 1; k < 7; k++) {
-                if (p.getPos().x - k < 0 || p.getPos().y + k > 7) {
+            for (int k = 1; k < BOARD_LAST_INDEX; k++) {
+                if (p.getX() - k < 0 || p.getY() + k > BOARD_LAST_INDEX) {
                     break;
                 }
-                if (getSquares(p.getPos().x - k, p.getPos().y + k).getPieceOnSquare() != null) {
+                if (getSquares(p.getX() - k, p.getY() + k).getPieceOnSquare() != null) {
                     int finalK = k;
-                    validMoves.removeIf(s -> s.getX() < p.getPos().x - finalK && s.getY() > p.getPos().y + finalK);
+                    validMoves.removeIf(s -> s.getX() < p.getX() - finalK && s.getY() > p.getY() + finalK);
                     break;
                 }
             }
             //up right
-            for (int k = 1; k < 7; k++) {
-                if (p.getPos().x + k > 7 || p.getPos().y - k < 0) {
+            for (int k = 1; k < BOARD_LAST_INDEX; k++) {
+                if (p.getX() + k > BOARD_LAST_INDEX || p.getY() - k < 0) {
                     break;
                 }
-                if (getSquares(p.getPos().x + k, p.getPos().y - k).getPieceOnSquare() != null) {
+                if (getSquares(p.getX() + k, p.getY() - k).getPieceOnSquare() != null) {
                     int finalK = k;
-                    validMoves.removeIf(s -> s.getX() > p.getPos().x + finalK && s.getY() < p.getPos().y - finalK);
+                    validMoves.removeIf(s -> s.getX() > p.getX() + finalK && s.getY() < p.getY() - finalK);
                     break;
                 }
             }
             //up left
-            for (int k = 1; k < 7; k++) {
-                if (p.getPos().x - k < 0 || p.getPos().y - k < 0) {
+            for (int k = 1; k < BOARD_LAST_INDEX; k++) {
+                if (p.getX() - k < 0 || p.getY() - k < 0) {
                     break;
                 }
-                if (getSquares(p.getPos().x - k, p.getPos().y - k).getPieceOnSquare() != null) {
+                if (getSquares(p.getX() - k, p.getY() - k).getPieceOnSquare() != null) {
                     int finalK = k;
-                    validMoves.removeIf(s -> s.getX() < p.getPos().x - finalK && s.getY() < p.getPos().y - finalK);
+                    validMoves.removeIf(s -> s.getX() < p.getX() - finalK && s.getY() < p.getY() - finalK);
                     break;
                 }
             }
@@ -332,12 +331,20 @@ public class Board {
         square.setPieceOnSquare(p);
     }
 
+    private Boolean isBoardSquareEmpty(Point p) {
+        return getSquaresOnPoint(p).getPieceOnSquare() == null;
+    }
+
     public BoardSquare getSquares(int x, int y) {
         return squares[y][x];
     }
 
     public BoardSquare getSquaresOnPoint(Point point) {
         return squares[point.y][point.x];
+    }
+
+    public GamePiece getPieceOnSqaureOnPoint(Point p) {
+        return getSquaresOnPoint(p).getPieceOnSquare();
     }
 
     public int getWidth() {

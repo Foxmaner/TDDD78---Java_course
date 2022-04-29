@@ -7,6 +7,7 @@ public class GameInfo extends JPanel {
     private Board board;
 
     public int TILE_SIZE = 100;
+    public int FONT_SIZE = 30;
 
     private JLabel nrOfRoundsText;
 
@@ -21,9 +22,9 @@ public class GameInfo extends JPanel {
         whosTurnText = new JLabel("Whos turn: " + "White");
         generalInfo = new JLabel("Winner: "+  "No winner yet");
 
-        nrOfRoundsText.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-        whosTurnText.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-        generalInfo.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+        nrOfRoundsText.setFont(new Font("Comic Sans MS", Font.PLAIN, FONT_SIZE));
+        whosTurnText.setFont(new Font("Comic Sans MS", Font.PLAIN, FONT_SIZE));
+        generalInfo.setFont(new Font("Comic Sans MS", Font.PLAIN, FONT_SIZE));
 
         this.add(nrOfRoundsText, BorderLayout.NORTH);
         this.add(whosTurnText, BorderLayout.CENTER);
